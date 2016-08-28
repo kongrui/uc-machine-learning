@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>titanic_survival_exploration</title>
+<title>Titanic_Survival_Exploration</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11773,7 +11773,7 @@ Run the code cell below to load our data and display the first few entries (pass
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -11789,7 +11789,7 @@ Run the code cell below to load our data and display the first few entries (pass
 <span class="n">full_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
 
 <span class="c1"># Print the first few entries of the RMS Titanic data</span>
-<span class="n">display</span><span class="p">(</span><span class="n">full_data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">full_data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -11830,7 +11830,7 @@ Run the code cell below to load our data and display the first few entries (pass
       <td>3</td>
       <td>Braund, Mr. Owen Harris</td>
       <td>male</td>
-      <td>22.00</td>
+      <td>22.0</td>
       <td>1</td>
       <td>0</td>
       <td>A/5 21171</td>
@@ -11845,7 +11845,7 @@ Run the code cell below to load our data and display the first few entries (pass
       <td>1</td>
       <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
       <td>female</td>
-      <td>38.00</td>
+      <td>38.0</td>
       <td>1</td>
       <td>0</td>
       <td>PC 17599</td>
@@ -11860,7 +11860,7 @@ Run the code cell below to load our data and display the first few entries (pass
       <td>3</td>
       <td>Heikkinen, Miss. Laina</td>
       <td>female</td>
-      <td>26.00</td>
+      <td>26.0</td>
       <td>0</td>
       <td>0</td>
       <td>STON/O2. 3101282</td>
@@ -11875,7 +11875,7 @@ Run the code cell below to load our data and display the first few entries (pass
       <td>1</td>
       <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
       <td>female</td>
-      <td>35.00</td>
+      <td>35.0</td>
       <td>1</td>
       <td>0</td>
       <td>113803</td>
@@ -11890,7 +11890,7 @@ Run the code cell below to load our data and display the first few entries (pass
       <td>3</td>
       <td>Allen, Mr. William Henry</td>
       <td>male</td>
-      <td>35.00</td>
+      <td>35.0</td>
       <td>0</td>
       <td>0</td>
       <td>373450</td>
@@ -11898,849 +11898,8 @@ Run the code cell below to load our data and display the first few entries (pass
       <td>NaN</td>
       <td>S</td>
     </tr>
-    <tr>
-      <th>5</th>
-      <td>6</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Moran, Mr. James</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>330877</td>
-      <td>8.4583</td>
-      <td>NaN</td>
-      <td>Q</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>7</td>
-      <td>0</td>
-      <td>1</td>
-      <td>McCarthy, Mr. Timothy J</td>
-      <td>male</td>
-      <td>54.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>17463</td>
-      <td>51.8625</td>
-      <td>E46</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>8</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Palsson, Master. Gosta Leonard</td>
-      <td>male</td>
-      <td>2.00</td>
-      <td>3</td>
-      <td>1</td>
-      <td>349909</td>
-      <td>21.0750</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>9</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)</td>
-      <td>female</td>
-      <td>27.00</td>
-      <td>0</td>
-      <td>2</td>
-      <td>347742</td>
-      <td>11.1333</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>10</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Nasser, Mrs. Nicholas (Adele Achem)</td>
-      <td>female</td>
-      <td>14.00</td>
-      <td>1</td>
-      <td>0</td>
-      <td>237736</td>
-      <td>30.0708</td>
-      <td>NaN</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>11</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Sandstrom, Miss. Marguerite Rut</td>
-      <td>female</td>
-      <td>4.00</td>
-      <td>1</td>
-      <td>1</td>
-      <td>PP 9549</td>
-      <td>16.7000</td>
-      <td>G6</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>12</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Bonnell, Miss. Elizabeth</td>
-      <td>female</td>
-      <td>58.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>113783</td>
-      <td>26.5500</td>
-      <td>C103</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>13</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Saundercock, Mr. William Henry</td>
-      <td>male</td>
-      <td>20.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>A/5. 2151</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>14</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Andersson, Mr. Anders Johan</td>
-      <td>male</td>
-      <td>39.00</td>
-      <td>1</td>
-      <td>5</td>
-      <td>347082</td>
-      <td>31.2750</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>15</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Vestrom, Miss. Hulda Amanda Adolfina</td>
-      <td>female</td>
-      <td>14.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>350406</td>
-      <td>7.8542</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>16</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Hewlett, Mrs. (Mary D Kingcome)</td>
-      <td>female</td>
-      <td>55.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>248706</td>
-      <td>16.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>17</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Rice, Master. Eugene</td>
-      <td>male</td>
-      <td>2.00</td>
-      <td>4</td>
-      <td>1</td>
-      <td>382652</td>
-      <td>29.1250</td>
-      <td>NaN</td>
-      <td>Q</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>18</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Williams, Mr. Charles Eugene</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>244373</td>
-      <td>13.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>19</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Vander Planke, Mrs. Julius (Emelia Maria Vande...</td>
-      <td>female</td>
-      <td>31.00</td>
-      <td>1</td>
-      <td>0</td>
-      <td>345763</td>
-      <td>18.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>20</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Masselmani, Mrs. Fatima</td>
-      <td>female</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2649</td>
-      <td>7.2250</td>
-      <td>NaN</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>21</td>
-      <td>0</td>
-      <td>2</td>
-      <td>Fynney, Mr. Joseph J</td>
-      <td>male</td>
-      <td>35.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>239865</td>
-      <td>26.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>22</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Beesley, Mr. Lawrence</td>
-      <td>male</td>
-      <td>34.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>248698</td>
-      <td>13.0000</td>
-      <td>D56</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>23</td>
-      <td>1</td>
-      <td>3</td>
-      <td>McGowan, Miss. Anna "Annie"</td>
-      <td>female</td>
-      <td>15.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>330923</td>
-      <td>8.0292</td>
-      <td>NaN</td>
-      <td>Q</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>24</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Sloper, Mr. William Thompson</td>
-      <td>male</td>
-      <td>28.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>113788</td>
-      <td>35.5000</td>
-      <td>A6</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>25</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Palsson, Miss. Torborg Danira</td>
-      <td>female</td>
-      <td>8.00</td>
-      <td>3</td>
-      <td>1</td>
-      <td>349909</td>
-      <td>21.0750</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>26</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Asplund, Mrs. Carl Oscar (Selma Augusta Emilia...</td>
-      <td>female</td>
-      <td>38.00</td>
-      <td>1</td>
-      <td>5</td>
-      <td>347077</td>
-      <td>31.3875</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>27</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Emir, Mr. Farred Chehab</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2631</td>
-      <td>7.2250</td>
-      <td>NaN</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>28</td>
-      <td>0</td>
-      <td>1</td>
-      <td>Fortune, Mr. Charles Alexander</td>
-      <td>male</td>
-      <td>19.00</td>
-      <td>3</td>
-      <td>2</td>
-      <td>19950</td>
-      <td>263.0000</td>
-      <td>C23 C25 C27</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>29</td>
-      <td>1</td>
-      <td>3</td>
-      <td>O'Dwyer, Miss. Ellen "Nellie"</td>
-      <td>female</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>330959</td>
-      <td>7.8792</td>
-      <td>NaN</td>
-      <td>Q</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>30</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Todoroff, Mr. Lalio</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>349216</td>
-      <td>7.8958</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>70</th>
-      <td>71</td>
-      <td>0</td>
-      <td>2</td>
-      <td>Jenkin, Mr. Stephen Curnow</td>
-      <td>male</td>
-      <td>32.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>C.A. 33111</td>
-      <td>10.5000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>71</th>
-      <td>72</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Goodwin, Miss. Lillian Amy</td>
-      <td>female</td>
-      <td>16.00</td>
-      <td>5</td>
-      <td>2</td>
-      <td>CA 2144</td>
-      <td>46.9000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>72</th>
-      <td>73</td>
-      <td>0</td>
-      <td>2</td>
-      <td>Hood, Mr. Ambrose Jr</td>
-      <td>male</td>
-      <td>21.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>S.O.C. 14879</td>
-      <td>73.5000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>73</th>
-      <td>74</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Chronopoulos, Mr. Apostolos</td>
-      <td>male</td>
-      <td>26.00</td>
-      <td>1</td>
-      <td>0</td>
-      <td>2680</td>
-      <td>14.4542</td>
-      <td>NaN</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>74</th>
-      <td>75</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Bing, Mr. Lee</td>
-      <td>male</td>
-      <td>32.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1601</td>
-      <td>56.4958</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>75</th>
-      <td>76</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Moen, Mr. Sigurd Hansen</td>
-      <td>male</td>
-      <td>25.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>348123</td>
-      <td>7.6500</td>
-      <td>F G73</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>76</th>
-      <td>77</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Staneff, Mr. Ivan</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>349208</td>
-      <td>7.8958</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>77</th>
-      <td>78</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Moutal, Mr. Rahamin Haim</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>374746</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>78</th>
-      <td>79</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Caldwell, Master. Alden Gates</td>
-      <td>male</td>
-      <td>0.83</td>
-      <td>0</td>
-      <td>2</td>
-      <td>248738</td>
-      <td>29.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>79</th>
-      <td>80</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Dowdell, Miss. Elizabeth</td>
-      <td>female</td>
-      <td>30.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>364516</td>
-      <td>12.4750</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>80</th>
-      <td>81</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Waelens, Mr. Achille</td>
-      <td>male</td>
-      <td>22.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>345767</td>
-      <td>9.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>81</th>
-      <td>82</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Sheerlinck, Mr. Jan Baptist</td>
-      <td>male</td>
-      <td>29.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>345779</td>
-      <td>9.5000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>82</th>
-      <td>83</td>
-      <td>1</td>
-      <td>3</td>
-      <td>McDermott, Miss. Brigdet Delia</td>
-      <td>female</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>330932</td>
-      <td>7.7875</td>
-      <td>NaN</td>
-      <td>Q</td>
-    </tr>
-    <tr>
-      <th>83</th>
-      <td>84</td>
-      <td>0</td>
-      <td>1</td>
-      <td>Carrau, Mr. Francisco M</td>
-      <td>male</td>
-      <td>28.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>113059</td>
-      <td>47.1000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>84</th>
-      <td>85</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Ilett, Miss. Bertha</td>
-      <td>female</td>
-      <td>17.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>SO/C 14885</td>
-      <td>10.5000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>85</th>
-      <td>86</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Backstrom, Mrs. Karl Alfred (Maria Mathilda Gu...</td>
-      <td>female</td>
-      <td>33.00</td>
-      <td>3</td>
-      <td>0</td>
-      <td>3101278</td>
-      <td>15.8500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>86</th>
-      <td>87</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Ford, Mr. William Neal</td>
-      <td>male</td>
-      <td>16.00</td>
-      <td>1</td>
-      <td>3</td>
-      <td>W./C. 6608</td>
-      <td>34.3750</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>87</th>
-      <td>88</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Slocovski, Mr. Selman Francis</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>SOTON/OQ 392086</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>88</th>
-      <td>89</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Fortune, Miss. Mabel Helen</td>
-      <td>female</td>
-      <td>23.00</td>
-      <td>3</td>
-      <td>2</td>
-      <td>19950</td>
-      <td>263.0000</td>
-      <td>C23 C25 C27</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>89</th>
-      <td>90</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Celotti, Mr. Francesco</td>
-      <td>male</td>
-      <td>24.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>343275</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>90</th>
-      <td>91</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Christmann, Mr. Emil</td>
-      <td>male</td>
-      <td>29.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>343276</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>91</th>
-      <td>92</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Andreasson, Mr. Paul Edvin</td>
-      <td>male</td>
-      <td>20.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>347466</td>
-      <td>7.8542</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>92</th>
-      <td>93</td>
-      <td>0</td>
-      <td>1</td>
-      <td>Chaffee, Mr. Herbert Fuller</td>
-      <td>male</td>
-      <td>46.00</td>
-      <td>1</td>
-      <td>0</td>
-      <td>W.E.P. 5734</td>
-      <td>61.1750</td>
-      <td>E31</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>93</th>
-      <td>94</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Dean, Mr. Bertram Frank</td>
-      <td>male</td>
-      <td>26.00</td>
-      <td>1</td>
-      <td>2</td>
-      <td>C.A. 2315</td>
-      <td>20.5750</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>94</th>
-      <td>95</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Coxon, Mr. Daniel</td>
-      <td>male</td>
-      <td>59.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>364500</td>
-      <td>7.2500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>96</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Shorney, Mr. Charles Joseph</td>
-      <td>male</td>
-      <td>NaN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>374910</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>97</td>
-      <td>0</td>
-      <td>1</td>
-      <td>Goldschmidt, Mr. George B</td>
-      <td>male</td>
-      <td>71.00</td>
-      <td>0</td>
-      <td>0</td>
-      <td>PC 17754</td>
-      <td>34.6542</td>
-      <td>A5</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>98</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Greenfield, Mr. William Bertram</td>
-      <td>male</td>
-      <td>23.00</td>
-      <td>0</td>
-      <td>1</td>
-      <td>PC 17759</td>
-      <td>63.3583</td>
-      <td>D10 D12</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>99</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Doling, Mrs. John T (Ada Julia Bone)</td>
-      <td>female</td>
-      <td>34.00</td>
-      <td>0</td>
-      <td>1</td>
-      <td>231919</td>
-      <td>23.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>100</td>
-      <td>0</td>
-      <td>2</td>
-      <td>Kantor, Mr. Sinai</td>
-      <td>male</td>
-      <td>34.00</td>
-      <td>1</td>
-      <td>0</td>
-      <td>244367</td>
-      <td>26.0000</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
   </tbody>
 </table>
-<p>100 rows × 12 columns</p>
 </div>
 </div>
 
@@ -12781,7 +11940,7 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Store the &#39;Survived&#39; feature in a new variable and remove it from the dataset</span>
-<span class="n">outcomes</span> <span class="o">=</span> <span class="n">full_data</span>
+<span class="n">outcomes</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">]</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">full_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Show the new dataset with &#39;Survived&#39; removed</span>
@@ -12913,7 +12072,7 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">accuracy_score</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
@@ -12923,9 +12082,6 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">truth</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">):</span> 
         
         <span class="c1"># Calculate and return the accuracy as a percent</span>
-        <span class="c1">#print truth</span>
-        <span class="c1">#print pred</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">truth</span> <span class="o">==</span> <span class="n">pred</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="k">return</span> <span class="s2">&quot;Predictions have an accuracy of {:.2f}%.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">truth</span> <span class="o">==</span> <span class="n">pred</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
     
     <span class="k">else</span><span class="p">:</span>
@@ -12946,8 +12102,7 @@ Run the code cell below to remove <strong>Survived</strong> as a feature of the 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.6
-Predictions have an accuracy of 60.00%.
+<pre>Predictions have an accuracy of 60.00%.
 </pre>
 </div>
 </div>
@@ -12971,7 +12126,7 @@ The <code>predictions_0</code> function below will always predict that a passeng
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_0</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -13008,7 +12163,7 @@ The <code>predictions_0</code> function below will always predict that a passeng
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
@@ -13038,7 +12193,7 @@ The <code>predictions_0</code> function below will always predict that a passeng
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong> 61.62%</p>
+<p><strong>Answer:</strong> <em>61.62%</em></p>
 
 </div>
 </div>
@@ -13057,7 +12212,7 @@ Run the code cell below to plot the survival outcomes of passengers based on the
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">)</span>
@@ -13316,7 +12471,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_1</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -13358,7 +12513,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
@@ -13374,8 +12529,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.786756453423
-Predictions have an accuracy of 78.68%.
+<pre>Predictions have an accuracy of 78.68%.
 </pre>
 </div>
 </div>
@@ -13389,7 +12543,7 @@ Predictions have an accuracy of 78.68%.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: 78.68%</p>
+<p><strong>Answer</strong>: <em>78.68%</em></p>
 
 </div>
 </div>
@@ -13408,7 +12562,7 @@ Run the code cell below to plot the survival outcomes of male passengers based o
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Sex == &#39;male&#39;&quot;</span><span class="p">])</span>
@@ -13686,7 +12840,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_2</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -13699,9 +12853,7 @@ Fill in the missing code below so that the function will make this prediction.<b
         
         <span class="c1"># Remove the &#39;pass&#39; statement below </span>
         <span class="c1"># and write your prediction conditions here</span>
-        <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">:</span>
-            <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span> <span class="ow">or</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">):</span>
             <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -13731,7 +12883,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
@@ -13747,8 +12899,7 @@ Fill in the missing code below so that the function will make this prediction.<b
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.793490460157
-Predictions have an accuracy of 79.35%.
+<pre>Predictions have an accuracy of 79.35%.
 </pre>
 </div>
 </div>
@@ -13762,7 +12913,7 @@ Predictions have an accuracy of 79.35%.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: 79.35%</p>
+<p><strong>Answer</strong>: <em>Replace this text with the prediction accuracy you found above.</em></p>
 
 </div>
 </div>
@@ -13783,10 +12934,10 @@ Predictions have an accuracy of 79.35%.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Sex == &#39;female&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;Pclass == 3&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">survival_stats</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">,</span> <span class="s1">&#39;Pclass&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Sex == &#39;female&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;Age &gt; 40&quot;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -13801,229 +12952,210 @@ Predictions have an accuracy of 79.35%.
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfIAAAGJCAYAAABxdLHSAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3XmYHWWZsPH7ySKQEDDBIIlZQPiiAiJqomJAm01ACDAq
-gUTZnE/FZdRxQJBBJDqiSATxmxF1RAaXBMFxJAFERrTZHBhRAQUkIGSRhBBCgCB78nx/VHV70unl
-dJLTpyt9/67rXH1qe+upOqf6Oe9bb1VFZiJJkqppULMDkCRJG85ELklShZnIJUmqMBO5JEkVZiKX
-JKnCTOSSJFWYiVzaRCJiZkRcswnKOT4ibtwUMW3g+i+MiH/egOXGR8STERGNiGtTrD8i1kbEK/sy
-LqnRTOSbqYhYGBFPl//YlkXExRExrNlx9bWIeEVE/DgiVkTEqoi4MyKOa8S6MnNOZh68qYrrakJE
-/H1E3BMRT5Sf7ZURMbycdnFEfL7elXT2oyEzP5yZX6xj2QcjYr+a5ZZk5ja5iW5OERHfjIhv1AwP
-iYinIuLfOhn3po7rj4hfRcT7OxRbd2wR8bmIOLPDuB0jYk1tDJtCRKztZlrtsby6/LvDRq7v7RGx
-ZGPKUP9hIt98JXBoZm4DvAGYDJzR3JAaKyIGdzL6+8AiYDywHXAssHwTlt+nIuLtwBeBozNzW+A1
-wI82pkh6kdz62A3APjXDk4HFHcZNoYj/t3WWubGtBccBfwSOjoihG1lWvdqP5cwcUf59eCPL3KjP
-vT8cC/obE/nmLQAycxnwM2B3gIg4ISLuLn/Z3x8RH2xfIGK7iJhf1l5XRsT1NdNOjYi/lMvdExH7
-luMjIk4ry1oREZdGxEvLaRPL5szjImJRRDwSEafXlLllRFwSEY9FxF0RcUptTSEixpQ16kci4s8R
-8Q810z4XEZdHxPcj4nHg+E72wRTgksx8NjPXZuYdmfnzcvn1aiW1tcxOyj+9rBm9tGb+15fbPLi2
-dhsR34iIczuU/dOI+GTNvry/3Jd/jIgj6/lAKZLZrzPzToDMfDwzv5+Zf42IDwDvBT5dlntFd+uK
-iFcDFwJ7lTW9x8rx7bX6rr4PEfE9YAIwvyz35JrPelA5z8iI+G5EPFQu+5PuyuzEDcBrImJUObwP
-cCkwvGbc3sD/ZOaa2vVHxL+U8/9rGd/Xa8o9MCIWlN+5f61zv7c5DjgLWAlMq50QEe+IiD+V2/Vv
-EdEaNS0CEfH+8rhbGRE/i4gJNYv3lFQ7/QESEW+JiJvLdf4+ih96bdM6Pc6jaJm7GhgbNTX86NCa
-0/H4KI+NT0fEHcBT5X7u8vhUH8pMX5vhC3gQ2K98P56iFnFWOXwIsGP5fh/gr8Ce5fDZwDcofuQN
-BqaW4ydR1IZeXg5PAHYq338C+DUwBhhKkRzmlNMmAmuBbwEvAfYAngVeVU7/MvArYBtgLHAHsLic
-FsBtwD+XsewI3A8cWE7/HPAcMK0c3qKT/XAtcBNwNDC+w7S3t62ri/3WsfwtgV8Af18z/1eAb5Tv
-jwduqNmvi2rmeynwdM3+e3fN+6OAp2qG28vpZHv2Lj+vs4C3Ai/pMP1i4PMdxvVqXbVldPV9qNlX
-+9YMTwTWAIPK4auAueVnOxjYp6cyO9neB4AjyvfzgRaKVpbacWd0sf5fAe/vUN5aYB4wguK4eAR4
-R53H1D7Ak8AWFK0iV9RM2w54Ajii3K6Pl9+d95fTjwAWUBxHg4DTgZt7eyx3GD8WeBQ4qBzevxze
-ro7jvLPv/jrfnY7zlHH8rlzvFvRwfPrqu5c18s3bT8ta1g0U/9S+BJCZP8vMheX7GymSXVtz5QsU
-CXmnzFyTmTeX49dQJOLdI2JIZi7OzAfLaR8C/jkzl2XmC8Dngfe01cwoahtnZebzWdQk7wBeV047
-CvhiZj6ZmUuB2prTm4CXZeYXy1gWAt8BjqmZ538yc365Lc91sg+OKrf/DOCBiPhdREyuc/91LP9Z
-isQ0s2b6McAPOy5U7teMiL3LUe+hqEkvL6f/Z837y4H7yu3tVmbeBLwLeD1wJfBoRHw1ousOXhu6
-rlJX34c2XdUUxwAHAR8qP9s15T6pp8xa1wNvK7fvTcAtFD/M2sZNLefpjS9l5urMXEJxXOxZ53LH
-AfPL79nlwMER8bJy2juBP2bmFVm0/HyddU/hfKhc74LMXEvxA3bPiBhf57p/WrYgPNbWsgG8D7gq
-yxamzLyOIrG+sxzu7jjfUBdk5tJyH0yh5+NTfcBEvnk7IjNHZeZOmfkPbYkuIg6JiP8pm/hWUfxy
-b/uHdC7wZ+DasjnuVIDM/DPwSYqa4PKImBN/63AzEfivtn80wN0U/6xfXhNL7T+1p4Gty/djgb/U
-TKtt6p4AvKLmH9gq4DPA9l3Mv57MfCIzT8/M15bx3AH8V3fLdNCx/P8E3hIRLy+bMbtLRD8CZpTv
-Z1KT8KM41fD7skl0FbAbf/sMupWZP8/MIzJzFEVN7wTg/3Y1/8asiy6+D3UYBzyWmU92Mu0rvSjz
-BuBtwGuBP5c/pm6iqC2+lqKV5NY6Y2rT1XexSxGxJcWPwssBMvN2ir4XbT/qxrL+d6X2ez0RuKDm
-GFlJ8QP3FXXG3HYsj8rMd9WUOb3D8TGV4kdST8f5huq4TT0dn+oDJvLN23q1pYh4CfBjin+mozNz
-JMX587bz6U9l5smZuTNwOPCpKM+FZ+almbkPxQEMcE75dzFwSM0/mpGZOTyLc/M9WUbxT79N7XnD
-JcADHcrdNjNrz03W3WEnMx8DZlOcGxxJ0dTY3pM/ig48ozsu1qGMxylqNsdQJOlLu1nlXIqWiQnA
-myl+BFAOfxv4SLlNI4G72ICOWJn5K+CXlP0fOsZbx7q63X/dfR96WHYJMCoitumkzL92U2ZHN1DU
-mA8FbiyXv4uiWfxQ4DeZ+XxX4Xe3bb30dxSnCL4VxZUCbd/btn4Zy8qYatV+r5dQtE7Ufpe3zsxb
-6lx/Z9+NJcD3OpQ5IjO/0tNxTuf7Zp3jgfIHQQe1y9VzfKoPmMgHnpeUr0czc21EHAK8o21iRBwa
-ETuXg6uBF4G1ETEpIvYt/0E8DzxDcb4RivPfZ7d13omI0RFxeM06u0tQlwGfiYiXRsQrgI/WTPtf
-YHXZwWbLKDqU7dabpvGI+HK5zOCIGAF8BLg/M1dRnLPcsqy5DKFofn9JHcXOpWhmfTcwp6uZylrb
-SormxmtqaqfDKfbdo2WHoRP5WyLuaXsOj4ij42+dCd9EUTv9n3KW5UDtddI9rWs5MC666IHdxfdh
-TRfrgr/9IHyYInF8o/xsh0TEPt2U2enlV2VL0HKKfhi1l8ndWo67obP1dxPfhjoeuIiiFeB15Wtv
-4HURsRtFf4Ddy89ncER8jHVbpL5J0VlyV4CI2DYi3rORMf0AmBZFJ7tB5THy9ogYSw/HOcW+2a7D
-D63bgXdG0UlxB4r9252NPj61aZjIN1+d1kYy8ymKjjiXl018xwBX1Mzyf4BfRMRq4Gbg3zLzeorO
-LV8GVgBLKWqunymXuaAs49qIeIKi41vtOdiOsdQOfx54iKIjzbUUTZfPlbGuBQ6jqJE9SNEx6d8p
-akb1GkbRlL6KoiPOeIpaIGVi/QjFP+i/UCSVv3RezDrmUeynZZn5hx7mnUPRCam9WT0z7wG+SnG+
-92GKpu6b6tyeVcAHgAXlvv4ecE5mtrUMXATs1nYutVzXed2s65cUNfSHI+KRTtbX2fehLXl+Cfhs
-ua5PtW1ezbLHUiTpP/G3ZNxVmd2d576BojNZ7SmMGym+gx0Tee36LwCOKpuWv9bJ9M6G11Mmxv2A
-8zPzkZrX74BrgOMzcyVF0/u5FB3OXk1xvrrtu/xTiuPn0iiugLgTqPeeA10dy3+hOLVyOsVxuQg4
-maKzX7fHeWbeS/GD9IHy89uBohPhncDCcrs6tjZ1bJ3aFMenNoHIbNwlpBFxEcUHvTwz96gZ/w8U
-/0BfpOiscVrDglClRMRJFNdId9XUKvV7EREUPwpn9vAjRdpoja6RX0zRc7VdRLRQXH/52rID0uwG
-x6B+LIrrV98ahVcB/wT8pKflpP6mbOLeNiK2oLgkC4qWEKmhhjSy8My8KSImdhj9YeDLmfliOc+j
-jYxB/d5LKM6x7wg8TtHcd2EzA5I20F4Up1KGUly5cUR2fkmktEk1tGkdijt7UVx7uUc5/HuKczUH
-U3SYOiUzb2toEJIkbaYaWiPvZp0jM/MtETGFoteyTyOSJGkDNCORL6E8B5qZv4ni3sjblb0+1xER
-/fVhDpIkNURm9uqeEn2RyIN1r+38KcWlHNdHxCRgaGdJvE2jm/77s7POOouzzjqr2WE0xRt32YXf
-7r9/s8Nomjdedx2/vf/+ZofRNAP5uw9u/0De/uj6bstdamgij4g5FA852C4iFlM8hOK7wMUR8QeK
-aywb8mxoSZIGgkb3Wp/ZxaRjG7leSZIGCu/s1o+1tLQ0O4SmGTtqVM8zbcYG+vYP5O8+uP0Dfft7
-q+GXn22MiMj+HJ8a50MHH8y3Jna8BcHA8aFFi/jWNdc0OwxJfSwi+mVnN0kasKZNm8ayZfU8CFAD
-yZgxY5g/f/4mKctELkkNtGzZMm67zXteaV2TJ2+6h8R5jlySpAozkUuSVGEmckmSKsxELknq0oc/
-/GG++MUvdjl90KBBPPDAA30YUd9asmQJ22yzTb++y6id3SSpD51+0kmsXLiwYeVvt+OOnP3Nb9Y1
-74477sgjjzzC0KFDGTx4MLvuuivHHnssH/zgB9tvFXrhhd0/VXhDbilaj5122omLLrqI/fbbryHl
-12v8+PE8+eSTTY2hJyZySepDKxcubOg9Ej7Uix8JEcFVV13Fvvvuy+rVq7n++uv5+Mc/zq233sp3
-v/vdusrozzXVeqxZs4bBgwc3O4yNYtO6JA1gbYl4xIgRHHbYYfzoRz/ikksu4e677wbgxBNP5Mwz
-z2yf/9xzz2Xs2LGMGzeOiy++uNsa+b777suZZ57J3nvvzTbbbMPBBx/MY4891j593rx57L777owa
-NYr99tuPe++9F4DjjjuOxYsXM23aNLbZZhtmz569XtkrV65k2rRpjBw5ku222463v/3t7dM6NvfX
-bsP111/P+PHj+cpXvsKYMWN4//vfz6677srVV1/dPv+aNWvYfvvtuf3221m0aBGDBg1i7dq1XHbZ
-ZUyZMmWdOM4//3yOPPJIAJ5//nlOPvlkJk6cyJgxY/jIRz7Cc88918MnsPFM5JKkdlOmTGHcuHHc
-eOON60275pprOO+887juuuu47777+MUvftFjeXPnzuWSSy5hxYoVPPfcc+1JecGCBcycOZOvf/3r
-rFixgkMOOYTDDjuMF198ke9973tMmDCBK6+8kieffJKTTz55vXK/+tWvMn78eFauXMkjjzzC2Wef
-3T6tp+b+hx9+mMcff5zFixfz7W9/m5kzZzJnzpx1tnP06NHsueee65Q3bdo0FixYwJ///Od1tu+9
-730vAKeeeir3338/d955J/fffz8PPfQQn//853vcRxvLRC5JWsfYsWPXqTm3ufzyyznxxBN5zWte
-w1ZbbVXXo0ZPPPFEdt55Z7bYYgumT5/O7bffDsBll13GYYcdxn777cfgwYM5+eSTeeaZZ/j1r3/d
-vmx3zfZDhw5l2bJlPPjggwwePJipU6fWtRzA4MGDmTVrFkOHDmWLLbZgxowZzJs3j2effRYokvOM
-GTPWW26rrbbiiCOOYO7cuQDcd9993HvvvRx++OEA/Pu//zvnn38+2267LcOHD+e0005rn7eRTOSS
-pHU89NBDjOrkwT1Lly5l/Pjx7cMTJ07sMWnusMMO7e+HDRvGU0891V7WxJq+AhHB+PHjeeihh+qK
-8dOf/jQ777wz73jHO9hll10455xz6loOYPTo0QwdOrR9eOedd2bXXXdl/vz5PPPMM8ybN4+ZMzt/
-eOeMGTPak/OcOXM48sgj2WKLLVixYgVPP/00b3zjGxk1ahSjRo3ikEMOYeXKlXXHtaHs7CZJaveb
-3/yGpUuXss8++6w3bcyYMSxZsqR9eNGiRRvca33s2LH88Y9/XGfckiVLGDduHNBz8/jw4cOZPXs2
-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
+<img src="data:image/png;base64,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
+JgxsSepB85YsIaFhf/OWLKm7lojgqquu4tlnn2XevHmccsopnHPOOXziE5+oex69oeX5RqxcubLZ
+JdTNwJakPqwlcIcMGcJBBx3Ez372M6ZPn869994LwHHHHcdpp53WOv65557LFltswahRo/jRj37U
+Zctzzz335LTTTmO33XZjww03ZP/99+fpp59uHT5r1ize9a53MWzYMPbaay/uv/9+AI4++mjmz5/P
+xIkT2XDDDZk2bdpq837qqaeYOHEiQ4cOZZNNNmGPPfZoHdZ+M33tc7jhhhsYPXo03/rWtxg5ciQf
+//jH2WGHHbj66qtbx1+5ciWbbbYZd955J/PmzaNfv36sWrWKyy67jPHjx7ep4/zzz+fQQw8F4JVX
+XuHEE09kzJgxjBw5ks985jO8/PLL3bwD9TOwJUmtxo8fz6hRo7jppptWG3bNNddw3nnnce211/Lg
+gw/ym9/8ptv5zZw5k+nTp7N06VJefvnl1vB94IEHmDJlCt/73vdYunQpBxxwAAcddBCvvfYaP/7x
+j9lqq6248soree655zjxxBNXm++3v/1tRo8ezVNPPcUTTzzB2Wef3Tqsu83Xixcv5plnnmH+/Plc
+fPHFTJkyhRkzZrR5nsOHD2fs2LFt5jdx4kQeeOABHn744TbP78gjjwTg5JNP5qGHHuLuu+/moYce
+YuHChZxxxhndvkb1MrAlSW1sscUWbVrCLS6//HKOO+443vnOd7L++uvXdQvM4447jm233ZZBgwYx
+adIk7rzzTgAuu+wyDjroIPbaay/69+/PiSeeyIsvvshvf/vb1mm72tw+cOBAFi1axKOPPkr//v3Z
+dddd65oOoH///nz9619n4MCBDBo0iMmTJzNr1ixeeukloAjhyZMnrzbd+uuvzyGHHMLMmTMBePDB
+B7n//vs5+OCDAfj+97/P+eefz0YbbcQGG2zAKaec0jruumBgS5LaWLhwIcOGDVut/+OPP87o0aNb
+u8eMGdNtOI6oOQhu8ODBPP/8863zGjNmTOuwiGD06NEsXLiwrhq/9KUvse2227Lvvvuy3Xbbcc45
+59Q1HcDw4cMZOHBga/e2227LDjvswOzZs3nxxReZNWsWU6ZM6XDayZMnt4bwjBkzOPTQQxk0aBBL
+ly5lxYoVvP/972fYsGEMGzaMAw44gKeeeqruurrjpUklSa3+8Ic/8Pjjj7P77ruvNmzkyJEsWLCg
+tXvevHlrffT0FltswV/+8pc2/RYsWMCoUaOA7jdrb7DBBkybNo1p06Zx7733sueee7Lzzjuz5557
+MnjwYFasWNE67uLFi9v80Oho3kcccQQzZsxg5cqV7LjjjrztbW/rcLn77LMPS5cu5a677uLSSy/l
+O9/5DgCbbropgwcP5p577mHkyJH1vQhryBa2JInly5dz5ZVXMnnyZI466ih22GGH1caZNGkS//Vf
+/8V9993HihUr3tD+2UmTJnHVVVdx/fXX89prrzFt2jTWW289dtllF6BomXd1fvdVV13Vui95yJAh
+DBgwgH79ikgbO3YsM2bMYNWqVVxzzTXccMMN3dZzxBFHMGfOHC688MLVWte1WxEGDBjAYYcdxkkn
+ncSyZcvYZ599gOJHwCc/+UlOOOEEli5dChRbKubMmbMGr0rXDGxJ6sMmTpzIRhttxFZbbcU3vvEN
+TjzxRH74wx+2Dq9tje6///6ccMIJ7LXXXmy//fZ8+MMf7nLeXbWSt99+e37605/yuc99juHDh3PV
+VVcxe/ZsBgwoNvyecsopnHnmmQwbNozzzjtvtekffPBB9t57b4YMGcKuu+7KZz/72dYjxb/73e8y
+a9Yshg4dysyZM/nHf/zHbl+HESNGsMsuu3Drrbdy+OGHd/k8Jk+ezLXXXsukSZNafyQAnHPOOWy3
+3XZ84AMfYOONN2bfffflgQce6HbZ9fJ+2L2Y98Puu++93jzGjRvX5m5dW48YsUbnSq+pMZtvzmOL
+Fzds/lo32q8XLbwftiT1Eoap1pabxCVJqgADW5KkCjCwJUmqAANbkqQKMLAlSaoAA1uSpAowsCVJ
+qgADW5LUcMcffzxnnXXWOp/v17/+dY466qh1Pt/eyMCWpB40YtQIIqJhfyNGjei+iBo333wzu+66
+KxtvvDGbbropu+++O3/84x/X+fO+8MIL+epXv7rO5wvd3yjkzcIrnUlSD1qycElDLzm8ZGr9lz1d
+vnw5EydO5KKLLuKwww7jlVde4aabbmLQoEFrvNzM7DPB2Sy2sCWpj3rggQeICCZNmkREMGjQIPbe
+e2/e9a53rbaped68efTr149Vq1YBsOeee3Lqqaey2267scEGG3Duuecyfvz4NvM///zzOfTQQwE4
+7rjjOO200wDYYYcduPrqq1vHW7lyJZttthl33nknALfeeiu77rorQ4cO5b3vfW+bu2099thjTJgw
+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
+LVtd3QAAAABJRU5ErkJggg==
 "
 >
 </div>
@@ -14048,43 +13180,26 @@ Make sure to keep track of the various features and conditions you tried before 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">passenger</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span>
-    <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">elif</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">elif</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">18</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">elif</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">18</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Parch&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="c1">#elif passenger[&#39;SibSp&#39;] == 1:</span>
-    <span class="c1">#    return 1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span> 
-
-<span class="k">def</span> <span class="nf">predictions_3</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predictions_3</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Model with multiple features. Makes a prediction with an accuracy of at least 80%. &quot;&quot;&quot;</span>
     
     <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">mismatch</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">passenger</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         
         <span class="c1"># Remove the &#39;pass&#39; statement below </span>
         <span class="c1"># and write your prediction conditions here</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">passenger</span><span class="p">)</span>
-        <span class="c1">#if result == 0 and passenger[&#39;Survived&#39;] == 1:</span>
-        <span class="c1">#    mismatch.append(passenger)</span>
-        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">:</span>
+            <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span> <span class="ow">or</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">):</span>
+            <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     
     <span class="c1"># Return our predictions</span>
-    <span class="c1"># display(mismatch)</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-
 
 <span class="c1"># Make the predictions</span>
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions_3</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -14108,7 +13223,7 @@ Make sure to keep track of the various features and conditions you tried before 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
@@ -14124,8 +13239,7 @@ Make sure to keep track of the various features and conditions you tried before 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.803591470258
-Predictions have an accuracy of 80.36%.
+<pre>Predictions have an accuracy of 80.13%.
 </pre>
 </div>
 </div>
@@ -14139,7 +13253,8 @@ Predictions have an accuracy of 80.36%.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: 80.36%</p>
+<p><strong>Answer</strong>: <em>80.13%.</em>. Given that 78.68% when using only Sex as sole feature for prediction,
+79.35% when adding the second feaure, male and age &lt; 10. To improve accuracy, I assume my first assumption that all female are survived needs to improve. Run this data analysis - survival_stats(data, outcomes, 'Pclass', ["Sex == 'female'", "Age &gt; 40"]), indicats that Pclass = 3 mostly did not survive. So If I add it as one extra condition, my prediction would be improved.</p>
 
 </div>
 </div>
@@ -14161,7 +13276,7 @@ Predictions have an accuracy of 80.36%.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: outcome=price of house, feature1=square footage, feature2=number of bed rooms</p>
+<p><strong>Answer</strong>: I'd like to predict next day's temperature. Feature one is the history temperature for this particular day. Typically the same day over the years has relatively the close temperature. The second feature is I like to us is the past several days' temperature of this particular day, as the particular day's temperature typically has very closed relationship to the past several day's temperature.</p>
 
 </div>
 </div>
