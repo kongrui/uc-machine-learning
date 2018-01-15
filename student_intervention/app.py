@@ -2,16 +2,26 @@
 
 import numpy as np
 import pandas as pd
-import time
+from time import time
 from sklearn.metrics import f1_score
+import pytablewriter
 
-def train_classifier(clf, X_train, y_train):
-    print "Training {}...".format(clf.__class__.__name__)
-    start = time.time()
-    clf.fit(X_train, y_train)
-    end = time.time()
-    print "Done!\nTraining time (secs): {:.6f}".format(end - start)
-    return end - start
+# Read student data
+student_data = pd.read_csv("student-data.csv")
+print "Student data read successfully!"
+
+# OBSERVATION -
+#  Out of those 395 students, 265 passed and 130 failed.
+#  So label data is unbalanced
+
+feature_cols = list(student_data.columns[:-1])
+# one series
+target_col = student_data.columns[-1]
+
+# Separate the data into feature data and target data (X_all and y_all, respectively)
+# feature dataframe and target dataframe
+X_all_raw = student_data[feature_cols]
+y_all_raw = student_data[target_col]
 
 def preprocess_features(X):
     ''' Preprocesses the student data and converts non-numeric binary variables into
@@ -38,13 +48,40 @@ def preprocess_features(X):
     return output
 
 
+X_all = preprocess_features(X_all_raw)
+print "Processed feature columns ({} total features):\n{}".format(len(X_all.columns), list(X_all.columns))
+y_all = y_all_raw
+
+from sklearn.cross_validation import train_test_split
+num_train = 300  # about 75% of the data : 395
+num_test = X_all.shape[0] - num_train
+X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, test_size=num_test)
+
+# Show the results of the split
+print "Training set has {} samples.".format(X_train.shape[0])
+print "Testing set has {} samples.".format(X_test.shape[0])
+
+def train_classifier(clf, X_train, y_train):
+    ''' Fits a classifier to the training data. '''
+
+    # Start the clock, train the classifier, then stop the clock
+    start = time()
+    clf.fit(X_train, y_train)
+    end = time()
+
+    # Print the results
+    print "Trained model in {:.4f} seconds".format(end - start)
+
+    return end - start
+
+
 def predict_labels(clf, features, target):
     ''' Makes predictions using a fit classifier based on F1 score. '''
 
     # Start the clock, make predictions, then stop the clock
-    start = time.time()
+    start = time()
     y_pred = clf.predict(features)
-    end = time.time()
+    end = time()
 
     # Print and return results
     print "Made predictions in {:.4f} seconds.".format(end - start)
@@ -64,65 +101,10 @@ def train_predict(clf, X_train, y_train, X_test, y_test):
     print "F1 score for training set: {:.4f}.".format(predict_labels(clf, X_train, y_train))
     print "F1 score for test set: {:.4f}.".format(predict_labels(clf, X_test, y_test))
 
-
-# Read student data
-student_data = pd.read_csv("student-data.csv")
-print(student_data.shape)
-
-# Total number of students: 395
-# Number of features: 30
-# Number of students who passed: 265
-# Number of students who failed: 130
-# Graduation rate of the class: 67.09%
-
-# Extract target column 'passed'
-target_col = student_data.columns[-1]
-y_all = student_data[target_col]
-
-# Separate the data into feature data and target data (X_all and y_all, respectively)
-feature_cols = list(student_data.columns[:-1])
-X_all = student_data[feature_cols]
-X_all = preprocess_features(X_all)
-print "Processed feature columns ({} total features):\n{}".format(len(X_all.columns), list(X_all.columns))
-print X_all.head()
-
-
-# Split training and test
-from sklearn.model_selection import train_test_split
-
-# TODO: Set the number of training points
-num_train = 300 # about 75% of the data
-
-# Set the number of testing points
-num_test = X_all.shape[0] - num_train
-
-# TODO: Shuffle and split the dataset into the number of training and testing points above
-X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, test_size=num_test)
-# Show the results of the split
-print "Training set has {} samples.".format(X_train.shape[0])
-print "Testing set has {} samples.".format(X_test.shape[0])
-
-
-# TODO: Import the three supervised learning models from sklearn
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
-
-# TODO: Initialize the three models
-clf_A = DecisionTreeClassifier()
-clf_B = SVC()
-clf_C = GaussianNB()
-
-# TODO: Set up the training set sizes
-
-# TODO: Execute the 'train_predict' function for each classifier and each training set size
-# train_predict(clf, X_train, y_train, X_test, y_test)
-#for l in (100,200,300):
-#    train_predict(clf_A,X_train[:l], y_train[:l], X_test, y_test)
-#    train_predict(clf_B,X_train[:l], y_train[:l], X_test, y_test)
-#    train_predict(clf_C,X_train[:l], y_train[:l], X_test, y_test)
-
-classifiers = [DecisionTreeClassifier(), SVC(), GaussianNB()]
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.naive_bayes import MultinomialNB
+classifiers = [RandomForestClassifier(), AdaBoostClassifier(), MultinomialNB()]
 results = {
     'Classifier': [],
     'Size': [],
@@ -143,9 +125,127 @@ for clf in classifiers:
 
         results['Classifier'].append(clf.__class__.__name__)
         results['Size'].append(X_train.shape[0])
-        results['Train time'].append("{:.3f}".format(time_train))
-        results['predict time'].append("{:.3f}".format(time_predict))
+        results['Train time'].append("{:.5f}".format(time_train))
+        results['predict time'].append("{:.5f}".format(time_predict))
         results['F1 score - train'].append(f1_train)
         results['F1 score - test'].append(f1_test)
-
 print pd.DataFrame(results)
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+
+# TODO: Execute the 'train_predict' function for each classifier and each training set size
+# train_predict(clf, X_train, y_train, X_test, y_test)  
+classifiers = [DecisionTreeClassifier(), SVC(), GaussianNB()]
+datasets = [train_test_split(X_all, y_all, train_size=x, test_size=95) for x in [100, 200, 300]]
+
+writer = pytablewriter.MarkdownTableWriter()
+
+for clf in classifiers:
+    results = {
+        'Classifier': [],
+        'Size': [],
+        'Train time': [],
+        'predict time': [],
+        'F1 score - train': [],
+        'F1 score - test': []
+    }
+    for data in datasets:
+        X_train, X_test, y_train, y_test = data
+        time_train = train_classifier(clf, X_train, y_train)
+        f1_train, time_predict = predict_labels(clf, X_train, y_train)
+        f1_test, time_predict = predict_labels(clf, X_test, y_test)
+        results['Classifier'].append(clf.__class__.__name__)
+        results['Size'].append(X_train.shape[0])
+        results['Train time'].append("{:.5f}".format(time_train))
+        results['predict time'].append("{:.5f}".format(time_predict))
+        results['F1 score - train'].append(f1_train)
+        results['F1 score - test'].append(f1_test)
+    writer.from_dataframe(pd.DataFrame(results))
+    writer.write_table()
+
+# ### Tabular Results
+# Edit the cell below to see how a table can be designed in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables). You can record your results from above in the tables provided.
+
+# ** Classifer 1 - ?**  
+# 
+# | Training Set Size | Training Time | Prediction Time (test) | F1 Score (train) | F1 Score (test) |
+# | :---------------: | :---------------------: | :--------------------: | :--------------: | :-------------: |
+# | 100               |                         |                        |                  |                 |
+# | 200               |        EXAMPLE          |                        |                  |                 |
+# | 300               |                         |                        |                  |    EXAMPLE      |
+# 
+# ** Classifer 2 - ?**  
+# 
+# | Training Set Size | Training Time | Prediction Time (test) | F1 Score (train) | F1 Score (test) |
+# | :---------------: | :---------------------: | :--------------------: | :--------------: | :-------------: |
+# | 100               |                         |                        |                  |                 |
+# | 200               |     EXAMPLE             |                        |                  |                 |
+# | 300               |                         |                        |                  |     EXAMPLE     |
+# 
+# ** Classifer 3 - ?**  
+# 
+# | Training Set Size | Training Time | Prediction Time (test) | F1 Score (train) | F1 Score (test) |
+# | :---------------: | :---------------------: | :--------------------: | :--------------: | :-------------: |
+# | 100               |                         |                        |                  |                 |
+# | 200               |                         |                        |                  |                 |
+# | 300               |                         |                        |                  |                 |
+
+# ## Choosing the Best Model
+# In this final section, you will choose from the three supervised learning models the *best* model to use on the student data. You will then perform a grid search optimization for the model over the entire training set (`X_train` and `y_train`) by tuning at least one parameter to improve upon the untuned model's F<sub>1</sub> score. 
+
+# ### Question 3 - Choosing the Best Model
+# *Based on the experiments you performed earlier, in one to two paragraphs, explain to the board of supervisors what single model you chose as the best model. Which model is generally the most appropriate based on the available data, limited resources, cost, and performance?*
+
+# **Answer: **
+
+# ### Question 4 - Model in Layman's Terms
+# *In one to two paragraphs, explain to the board of directors in layman's terms how the final model chosen is supposed to work. Be sure that you are describing the major qualities of the model, such as how the model is trained and how the model makes a prediction. Avoid using advanced mathematical or technical jargon, such as describing equations or discussing the algorithm implementation.*
+
+# **Answer: **
+
+# ### Implementation: Model Tuning
+# Fine tune the chosen model. Use grid search (`GridSearchCV`) with at least one important parameter tuned with at least 3 different values. You will need to use the entire training set for this. In the code cell below, you will need to implement the following:
+# - Import [`sklearn.grid_search.gridSearchCV`](http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html) and [`sklearn.metrics.make_scorer`](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html).
+# - Create a dictionary of parameters you wish to tune for the chosen model.
+#  - Example: `parameters = {'parameter' : [list of values]}`.
+# - Initialize the classifier you've chosen and store it in `clf`.
+# - Create the F<sub>1</sub> scoring function using `make_scorer` and store it in `f1_scorer`.
+#  - Set the `pos_label` parameter to the correct value!
+# - Perform grid search on the classifier `clf` using `f1_scorer` as the scoring method, and store it in `grid_obj`.
+# - Fit the grid search object to the training data (`X_train`, `y_train`), and store it in `grid_obj`.
+
+# In[ ]:
+
+
+# TODO: Import 'GridSearchCV' and 'make_scorer'
+
+# TODO: Create the parameters list you wish to tune
+parameters = None
+
+# TODO: Initialize the classifier
+clf = None
+
+# TODO: Make an f1 scoring function using 'make_scorer' 
+f1_scorer = None
+
+# TODO: Perform grid search on the classifier using the f1_scorer as the scoring method
+grid_obj = None
+
+# TODO: Fit the grid search object to the training data and find the optimal parameters
+grid_obj = None
+
+# Get the estimator
+#clf = grid_obj.best_estimator_
+
+# Report the final F1 score for training and testing after parameter tuning
+#print "Tuned model has a training F1 score of {:.4f}.".format(predict_labels(clf, X_train, y_train))
+#print "Tuned model has a testing F1 score of {:.4f}.".format(predict_labels(clf, X_test, y_test))
+
+# ### Question 5 - Final F<sub>1</sub> Score
+# *What is the final model's F<sub>1</sub> score for training and testing? How does that score compare to the untuned model?*
+
+# **Answer: **
+
+# > **Note**: Once you have completed all of the code implementations and successfully answered each question above, you may finalize your work by exporting the iPython Notebook as an HTML document. You can do this by using the menu above and navigating to  

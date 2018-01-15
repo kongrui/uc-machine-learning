@@ -61,3 +61,10 @@ The dataset used in this project is included as `student-data.csv`. This dataset
 - `health` : current health status (numeric: from 1 - very bad to 5 - very good)
 - `absences` : number of school absences (numeric: from 0 to 93)
 - `passed` : did the student pass the final exam (binary: yes or no)
+
+## Study
+ 
+### Problem
+- develop a model that will predict the likelihood that a given student will pass, 
+- quantifying whether an intervention is necessary. 
+
