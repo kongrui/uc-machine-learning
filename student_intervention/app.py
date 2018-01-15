@@ -131,13 +131,13 @@ for clf in classifiers:
         results['F1 score - test'].append(f1_test)
 print pd.DataFrame(results)
 
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 
 # TODO: Execute the 'train_predict' function for each classifier and each training set size
 # train_predict(clf, X_train, y_train, X_test, y_test)  
-classifiers = [DecisionTreeClassifier(), SVC(), GaussianNB()]
+classifiers = [LogisticRegression(), SVC(), GaussianNB()]
 datasets = [train_test_split(X_all, y_all, train_size=x, test_size=95) for x in [100, 200, 300]]
 
 writer = pytablewriter.MarkdownTableWriter()
