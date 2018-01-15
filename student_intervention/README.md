@@ -68,3 +68,4 @@ The dataset used in this project is included as `student-data.csv`. This dataset
 - develop a model that will predict the likelihood that a given student will pass, 
 - quantifying whether an intervention is necessary. 
 
+### Study
