@@ -1,27 +1,5 @@
 # coding: utf-8
 
-# # Machine Learning Engineer Nanodegree
-# ## Supervised Learning
-# ## Project 2: Building a Student Intervention System
-
-# Welcome to the second project of the Machine Learning Engineer Nanodegree! In this notebook, some template code has already been provided for you, and it will be your job to implement the additional functionality necessary to successfully complete this project. Sections that begin with **'Implementation'** in the header indicate that the following block of code will require additional functionality which you must provide. Instructions will be provided for each section and the specifics of the implementation are marked in the code block with a `'TODO'` statement. Please be sure to read the instructions carefully!
-#
-# In addition to implementing code, there will be questions that you must answer which relate to the project and your implementation. Each section where you will answer a question is preceded by a **'Question X'** header. Carefully read each question and provide thorough answers in the following text boxes that begin with **'Answer:'**. Your project submission will be evaluated based on your answers to each of the questions and the implementation you provide.
-#
-# >**Note:** Code and Markdown cells can be executed using the **Shift + Enter** keyboard shortcut. In addition, Markdown cells can be edited by typically double-clicking the cell to enter edit mode.
-
-# ### Question 1 - Classification vs. Regression
-# *Your goal for this project is to identify students who might need early intervention before they fail to graduate. Which type of supervised learning problem is this, classification or regression? Why?*
-
-# **Answer: ** Regression is used to predict continuous values. Classification is used to predict which class a data point is part of (discrete value). In this case, given a student, we would like to assign the classes “yes, need early intervention” and “no” to that student, so this is classification problem.
-
-# ## Exploring the Data
-# Run the code cell below to load necessary Python libraries and load the student data. Note that the last column from this dataset, `'passed'`, will be our target label (whether the student graduated or didn't graduate). All other columns are features about each student.
-
-# In[1]:
-
-
-# Import libraries
 import numpy as np
 import pandas as pd
 from time import time
@@ -336,23 +314,35 @@ results = {
     'F1 score - test': []
 }
 
-datasets = [train_test_split(X_all, y_all, train_size=x, test_size=95) for x in [100, 200, 300]]
+def train_test_split_wrapper(num_train, num_test):
+   return train_test_split(X_all, y_all, train_size = num_train, test_size=num_test, stratify = y_all, random_state=2)
+
+X_train, X_test, y_train, y_test = train_test_split_wrapper(300, 95)
+
+# datasets = [train_test_split(X_all, y_all, train_size=x, test_size=95) for x in [100, 200, 300]]
 
 for clf in classifiers:
-    for data in datasets:
-        X_train, X_test, y_train, y_test = data
-        time_train = train_classifier(clf, X_train, y_train)
-        f1_train, time_predict = predict_labels(clf, X_train, y_train)
+    results = {
+    'Classifier': [],
+    'Size': [],
+    'Train time': [],
+    'predict time': [],
+    'F1 score - train': [],
+    'F1 score - test': []
+    }
+    for size in [100, 200, 300]:
+        time_train = train_classifier(clf, X_train[:size], y_train[:size])
+        f1_train, time_predict = predict_labels(clf, X_train[:size], y_train[:size])
         f1_test, time_predict = predict_labels(clf, X_test, y_test)
-
         results['Classifier'].append(clf.__class__.__name__)
         results['Size'].append(X_train.shape[0])
         results['Train time'].append("{:.4f}".format(time_train))
         results['predict time'].append("{:.4f}".format(time_predict))
         results['F1 score - train'].append(f1_train)
         results['F1 score - test'].append(f1_test)
+    df = pd.DataFrame(results)
+    print(df.to_csv(index=False, sep='|'))
 
-pd.DataFrame(results)
 
 # ### Tabular Results
 # Edit the cell below to see how a table can be designed in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables). You can record your results from above in the tables provided.
