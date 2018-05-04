@@ -20,6 +20,7 @@
 ## P3 Background
 - Wholesale distributor moved from a morning delivery service five days a week to a cheaper evening delivery service three days a week
 - customers were canceling deliveries
+- Since one size will not fit all, distributor like to segment customer and give them diffrent service
 
 ## P4 DEV
 `jupyter notebook customer_segments.ipynb`
