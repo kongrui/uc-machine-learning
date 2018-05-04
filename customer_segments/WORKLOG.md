@@ -25,5 +25,6 @@
 ## P4 DEV
 `jupyter notebook customer_segments.ipynb`
 
-##
+## Q1
+-
 
