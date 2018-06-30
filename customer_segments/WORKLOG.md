@@ -22,9 +22,12 @@
 - customers were canceling deliveries
 - Since one size will not fit all, distributor like to segment customer and give them diffrent service
 
+## P4 product
+
+
 ## P4 DEV
 `jupyter notebook customer_segments.ipynb`
 
 ## Q1
--
+- How to choose 3 samples which vary significantly from one another
 
