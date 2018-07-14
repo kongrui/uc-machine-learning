@@ -38,7 +38,10 @@ class LearningAgent(Agent):
         ###########
         # Update epsilon using a decay function of your choice
         # Update additional class parameters as needed
+
         # If 'testing' is True, set epsilon and alpha to 0
+        if testing:
+            self.epsilon, self.alpha= 0, 0
 
         return None
 
@@ -101,12 +104,14 @@ class LearningAgent(Agent):
         # Set the agent state and default action
         self.state = state
         self.next_waypoint = self.planner.next_waypoint()
-        action = None
 
-        ########### 
+        action = None
+        ###########
         ## TO DO ##
         ###########
         # When not learning, choose a random action
+        if not self.learning:
+            action = random.choice(self.valid_actions)
         # When learning, choose a random action with 'epsilon' probability
         # Otherwise, choose an action with the highest Q-value for the current state
         # Be sure that when choosing an action with highest Q-value that you randomly select between actions that "tie".
