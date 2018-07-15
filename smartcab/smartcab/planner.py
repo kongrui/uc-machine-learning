@@ -30,7 +30,22 @@ class RoutePlanner(object):
         # This will pre-determine the need for U-turns from improper headings
         dx = delta_a[0] if abs(delta_a[0]) < abs(delta_b[0]) else delta_b[0]
         dy = delta_a[1] if abs(delta_a[1]) < abs(delta_b[1]) else delta_b[1]
-
+#        next = self.calculate(dx, dy, heading)
+#
+#        if self.env.verbose:
+#            step_data = {}
+#            step_data['location'] = location
+#            step_data['heading'] = heading
+#            step_data['delta_a'] = delta_a
+#            step_data['delta_b'] = delta_b
+#            step_data['dx'] = dx
+#            step_data['dy'] = dy
+#            step_data['next'] = next
+#            print "Simulator.nextwaypoint(): Step data: {}".format(step_data)
+#
+#        return next
+#
+#    def calculate(self, dx, dy, heading):
         # First check if destination is at location
         if dx == 0 and dy == 0:
             return None
