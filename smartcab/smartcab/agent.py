@@ -190,4 +190,7 @@ def run():
 
 
 if __name__ == '__main__':
+    # create env and inject into simulator
+    # run simulator,
+    #
     run()
