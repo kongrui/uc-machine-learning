@@ -9,7 +9,7 @@ class LearningAgent(Agent):
         This is the object you will be modifying. """ 
 
     def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5):
-        super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
+        super(LearningAgent, self).__init__(env)     # Set the agent in the evironment
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
 
@@ -42,10 +42,11 @@ class LearningAgent(Agent):
         if testing:
             self.epsilon, self.alpha= 0, 0
         else:
-            self.epsilon = self.epsilon - 0.05
-            # self.epsilon = math.pow(self.alpha, self.trial)
+            self.epsilon = self.epsilon - 0.05 # LINEAR
+            self.epsilon = math.pow(self.alpha, self.trial) #
             # self.epsilon = 1.0 / (self.trial**2)
             # self.epsilon = math.exp(-(self.alpha * self.trial))
+            # self.epsilon = math.cos(self.alpha * self.epsilon)
             # self.trial = self.trial + 1
 
         return None
@@ -177,7 +178,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning = True)
+    agent = env.create_agent(LearningAgent, learning = True, alpha=0.5)
     
     ##############
     # Follow the driving agent
@@ -199,11 +200,12 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10)
+    sim.run(n_test=10, tolerance=0.05)
 
 
 if __name__ == '__main__':
     # create env and inject into simulator
     # run simulator,
-    #
+    # q-learning tuning
+    # a) epsilon - exploration  formula  b) alpha  learning factor c) tolerance
     run()
