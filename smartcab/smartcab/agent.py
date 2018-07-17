@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5, decayfunc=lambda x,y: 1.0 - y * 0.05):
+    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5, decayfunc=lambda y: 1.0 - y * 0.05):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -49,7 +49,7 @@ class LearningAgent(Agent):
             # self.epsilon = math.exp(-(self.alpha * self.trial))
             # self.epsilon = math.cos(self.alpha * self.trial)
             self.trial = self.trial + 1
-            self.epsilon = self.decayfunc(self.alpha, self.trial)
+            self.epsilon = self.decayfunc(self.trial)
 
         return None
 
@@ -181,31 +181,19 @@ def run():
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
 
-    # decayfunc = lambda alpha, trial: 1.0 - trial * 0.05
-    # decayfunc = lambda alpha, trial: 1.0 / math.pow(trial, 2)
-    # decayfunc = lambda alpha, trial: math.pow(alpha, trial)
-    # decayfunc = lambda alpha, trial: math.exp(-(alpha * trial))
-    # decayfunc = lambda alpha, trial: math.cos(alpha * trial)
+    # decayfunc = lambda trial: 1.0 - trial * 0.05
+    # decayfunc = lambda trial: 1.0 / math.pow(trial, 2)
+    # decayfunc = lambda a: lambda trial: math.pow(alpha, trial)
+    # decayfunc = lambda a: lambda trial: math.exp(-(alpha * trial))
+    # decayfunc = lambda a: lambda trial: math.cos(alpha * trial)
 
     ##
-    # tolerance = 0.05 # default=0.05
-    # alpha = 0.5 # default=0.5
-    # decayfunc = lambda alpha, trial: 1.0 - trial * 0.05
-    # logtag = 't' + str(tolerance) + '_a' + str(alpha) + '_eps_' + 'linear'
-
-    ##
-    #tolerance = 0.0005 # default=0.05
-    #alpha = 0.95 # default=0.5
-    #decayfunc = lambda alpha, trial: 1.0 / math.pow(trial, 2)
-    #logtag = 't' + str(tolerance) + '_a' + str(alpha) + '_eps_' + 'pow-2'
-    #agent = env.create_agent(LearningAgent, learning=True, alpha=alpha, epsilon=1.0, decayfunc=decayfunc)
-
-    ##
-    tolerance = 0.005 # default=0.05
-    alpha = 0.01 # default=0.5
-    decayfunc = lambda alpha, trial: math.exp(-(alpha * trial))
-    logtag = 't' + str(tolerance) + '_a' + str(alpha) + '_eps_' + 'expat'
-    agent = env.create_agent(LearningAgent, learning=True, alpha=alpha, epsilon=1.0, decayfunc=decayfunc)
+    tolerance = 0.01 # default=0.05
+    a = 0.01 # default=0.01
+    decayfunc_f = lambda a: lambda trial: math.exp(-(a * trial))
+    decayfunc = decayfunc_f(a)
+    logtag = 't' + str(tolerance) + '_a' + str(a) + '_eps_' + 'expat'
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, decayfunc=decayfunc)
     
     ##############
     # Follow the driving agent
