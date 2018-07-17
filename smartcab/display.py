@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import os
 import ast
+import sys
 
 
 def calculate_safety(data):
@@ -52,7 +53,6 @@ def calculate_reliability(data):
 		else:
 			return ("F", "red")
 
-
 def plot_trials(csv):
 	""" Plots the data from logged metrics during a simulation."""
 
@@ -87,6 +87,7 @@ def plot_trials(csv):
 	testing_data = data[data['testing'] == True]
 
 	plt.figure(figsize=(12, 8))
+	plt.suptitle(csv, fontsize=16)
 
 	###############
 	### Average step reward plot
@@ -197,4 +198,4 @@ def plot_trials(csv):
 	plt.show()
 
 if __name__ == '__main__':
-    plot_trials('sim_no-learning.csv')
+    plot_trials(sys.argv[1])

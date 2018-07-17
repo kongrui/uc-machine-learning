@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5):
+    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5, decayfunc=lambda x,y: 1.0 - y * 0.05):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -24,6 +24,7 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
         self.trial = 0
+        self.decayfunc = decayfunc
 
     def reset(self, destination=None, testing=False):
         """ The reset function is called at the beginning of each trial.
@@ -40,14 +41,15 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
         if testing:
-            self.epsilon, self.alpha= 0, 0
+            self.epsilon, self.alpha=0, 0
         else:
-            self.epsilon = self.epsilon - 0.05 # LINEAR
-            self.epsilon = math.pow(self.alpha, self.trial) #
+            # self.epsilon = self.epsilon - 0.05 # LINEAR
+            # self.epsilon = math.pow(self.alpha, self.trial) #
             # self.epsilon = 1.0 / (self.trial**2)
             # self.epsilon = math.exp(-(self.alpha * self.trial))
-            # self.epsilon = math.cos(self.alpha * self.epsilon)
-            # self.trial = self.trial + 1
+            # self.epsilon = math.cos(self.alpha * self.trial)
+            self.trial = self.trial + 1
+            self.epsilon = self.decayfunc(self.alpha, self.trial)
 
         return None
 
@@ -87,7 +89,7 @@ class LearningAgent(Agent):
         # maxQ = None
         highest = max(self.Q[state].values())
         ties = [i for i, x in self.Q[state].items() if x == highest]
-        maxQ = random.choice(ties)
+        maxQ = random.choice(ties) # action with maxQ
         return maxQ
 
 
@@ -101,7 +103,7 @@ class LearningAgent(Agent):
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
         if (self.learning) and (state not in self.Q):
-            self.Q[state] = {action: 0 for action in self.valid_actions}
+            self.Q[state] = {action: 0.0 for action in self.valid_actions}
         return
 
 
@@ -178,7 +180,32 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning = True, alpha=0.5)
+
+    # decayfunc = lambda alpha, trial: 1.0 - trial * 0.05
+    # decayfunc = lambda alpha, trial: 1.0 / math.pow(trial, 2)
+    # decayfunc = lambda alpha, trial: math.pow(alpha, trial)
+    # decayfunc = lambda alpha, trial: math.exp(-(alpha * trial))
+    # decayfunc = lambda alpha, trial: math.cos(alpha * trial)
+
+    ##
+    # tolerance = 0.05 # default=0.05
+    # alpha = 0.5 # default=0.5
+    # decayfunc = lambda alpha, trial: 1.0 - trial * 0.05
+    # logtag = 't' + str(tolerance) + '_a' + str(alpha) + '_eps_' + 'linear'
+
+    ##
+    #tolerance = 0.0005 # default=0.05
+    #alpha = 0.95 # default=0.5
+    #decayfunc = lambda alpha, trial: 1.0 / math.pow(trial, 2)
+    #logtag = 't' + str(tolerance) + '_a' + str(alpha) + '_eps_' + 'pow-2'
+    #agent = env.create_agent(LearningAgent, learning=True, alpha=alpha, epsilon=1.0, decayfunc=decayfunc)
+
+    ##
+    tolerance = 0.005 # default=0.05
+    alpha = 0.01 # default=0.5
+    decayfunc = lambda alpha, trial: math.exp(-(alpha * trial))
+    logtag = 't' + str(tolerance) + '_a' + str(alpha) + '_eps_' + 'expat'
+    agent = env.create_agent(LearningAgent, learning=True, alpha=alpha, epsilon=1.0, decayfunc=decayfunc)
     
     ##############
     # Follow the driving agent
@@ -193,14 +220,14 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay=0.01, log_metrics=True, display=False)
+    sim = Simulator(env, update_delay=0.01, log_metrics=True, display=False, optimized=True, log_fname_prefix=logtag)
     
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10, tolerance=0.05)
+    sim.run(n_test=10, tolerance=tolerance)
 
 
 if __name__ == '__main__':
