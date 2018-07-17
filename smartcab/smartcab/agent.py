@@ -188,12 +188,13 @@ def run():
     # decayfunc = lambda a: lambda trial: math.cos(alpha * trial)
 
     ##
+    alpha_v = 0.5
     tolerance = 0.01 # default=0.05
     a = 0.01 # default=0.01
     decayfunc_f = lambda a: lambda trial: math.exp(-(a * trial))
     decayfunc = decayfunc_f(a)
-    logtag = 't' + str(tolerance) + '_a' + str(a) + '_eps_' + 'expat'
-    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, decayfunc=decayfunc)
+    logtag = 't' + str(tolerance) + '_a' + str(alpha_v) + '_eps_expat' + str(a)
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=alpha_v, decayfunc=decayfunc)
     
     ##############
     # Follow the driving agent
