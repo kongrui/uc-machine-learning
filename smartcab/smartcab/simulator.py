@@ -10,6 +10,8 @@ import time
 import random
 import importlib
 import csv
+import pandas as pd
+import ast
 
 class Simulator(object):
     """Simulates agents in a dynamic smartcab environment.
@@ -242,6 +244,7 @@ class Simulator(object):
                 self.table_file.close()
 
             self.log_file.close()
+            self.calculateGrade()
 
         print "\nSimulation ended. . . "
 
@@ -293,11 +296,11 @@ class Simulator(object):
         # Starting new trial
         else:
             a = self.env.primary_agent
-            #print "Simulating trial. . . "
-            #if a.learning:
-            #    print "epsilon = {:.4f}; alpha = {:.4f}".format(a.epsilon, a.alpha)
-            #else:
-            #    print "Agent not set to learn."
+            print "Simulating trial. . . "
+            if a.learning:
+                print "epsilon = {:.4f}; alpha = {:.4f}".format(a.epsilon, a.alpha)
+            else:
+                print "Agent not set to learn."
 
                 
     def render(self, trial, testing=False):
@@ -461,3 +464,50 @@ class Simulator(object):
             self.pygame.time.wait(self.frame_delay)
         self.screen.blit(self.font.render(pause_text, True, self.bg_color, self.bg_color), (400, self.height - 30))
         self.start_time += (time.time() - abs_pause_time)
+
+    def calculateGrade(self):
+
+        data = pd.read_csv(self.log_filename)
+        # Create additional features
+        data = data[data['testing'] == True]
+        success_ratio = data['success'].sum() * 1.0 / len(data)
+        data['good_actions'] = data['actions'].apply(lambda x: ast.literal_eval(x)[0])
+        good_ratio = data['good_actions'].sum() * 1.0 / \
+                     (data['initial_deadline'] - data['final_deadline']).sum()
+
+        print "filename: %s" % self.log_filename
+        print "safty: %s" % (self.goodRatioToStr(good_ratio, data)[0])
+        print "reliability: %s" % (self.successRatioToStr(success_ratio)[0])
+
+
+    def successRatioToStr(self, success_ratio):
+        if success_ratio == 1:  # Always meets deadline
+            return ("A+", "green")
+        else:
+            if success_ratio >= 0.90:
+                return ("A", "green")
+            elif success_ratio >= 0.80:
+                return ("B", "green")
+            elif success_ratio >= 0.70:
+                return ("C", "#EEC700")
+            elif success_ratio >= 0.60:
+                return ("D", "#EEC700")
+            else:
+                return ("F", "red")
+
+    def goodRatioToStr(self, good_ratio, data):
+        if good_ratio == 1:  # Perfect driving
+            return ("A+", "green")
+        else:  # Imperfect driving
+            if data['actions'].apply(lambda x: ast.literal_eval(x)[4]).sum() > 0:  # Major accident
+                return ("F", "red")
+            elif data['actions'].apply(lambda x: ast.literal_eval(x)[3]).sum() > 0:  # Minor accident
+                return ("D", "#EEC700")
+            elif data['actions'].apply(lambda x: ast.literal_eval(x)[2]).sum() > 0:  # Major violation
+                return ("C", "#EEC700")
+            else:  # Minor violation
+                minor = data['actions'].apply(lambda x: ast.literal_eval(x)[1]).sum()
+                if minor >= len(data) / 2:  # Minor violation in at least half of the trials
+                    return ("B", "green")
+                else:
+                    return ("A", "green")
