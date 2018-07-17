@@ -44,10 +44,10 @@ class LearningAgent(Agent):
             self.epsilon, self.alpha=0, 0
         else:
             # self.epsilon = self.epsilon - 0.05 # LINEAR
-            # self.epsilon = math.pow(self.alpha, self.trial) #
+            # self.epsilon = math.pow(a, self.trial) #
             # self.epsilon = 1.0 / (self.trial**2)
-            # self.epsilon = math.exp(-(self.alpha * self.trial))
-            # self.epsilon = math.cos(self.alpha * self.trial)
+            # self.epsilon = math.exp(-(a * self.trial))
+            # self.epsilon = math.cos(a * self.trial)
             self.trial = self.trial + 1
             self.epsilon = self.decayfunc(self.trial)
 
