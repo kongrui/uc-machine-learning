@@ -1,76 +1,77 @@
 # Machine Learning Engineer Nanodegree
+
 ## Capstone Proposal
 July 21st, 2018
 
 ## Proposal
 
+Since my interested domain is the shopping/commerce/vertical search. I found this challenge from Kraggle. https://www.kaggle.com/c/home-depot-product-search-relevance
 
+**Establish a model to predict the relevance of search results**
 
-### Domain Background
+## Domain Background
 
-https://www.kaggle.com/c/home-depot-product-search-relevance
+Search relevancy is an implicit measure Home Depot uses to gauge how quickly they can get customers to the right products. 
+Currently, human raters evaluate the impact of potential changes to their search algorithms, which is a slow and subjective process. 
 
-My interested domain is the shopping/commerce search. I found this challenge from Kraggle.
+By removing or minimizing human input in search relevance evaluation, 
+Home Depot hopes to increase the number of iterations their team can perform on the current search algorithms.
 
-Home Depot is asking Kagglers to help them improve their customers' shopping experience
-by developing a model that can accurately predict the relevance of search results.
+## Problem Statement
 
+Shoppers rely on Home Depot’s product authority to find and buy the latest products and to get timely solutions to their home improvement needs. 
+Home Depot is asking Kagglers to help them improve their customers' shopping experience by developing a model that can accurately predict the relevance of search results.
 
-### Problem Statement
-
-Search relevancy is an implicit measure Home Depot uses to gauge how quickly they can
-get customers to the right products.
-
-Currently, human raters evaluate the impact of potential changes to their search algorithms, which is a slow and subjective process.
-Human rating is a slow and expensive process.
-process. There are almost infinite search/product pairs so it is impossible for human raters to
-
-By removing or minimizing human input in search relevance evaluation, Home Depot hopes to
-increase the number of iterations their team can perform on the current search algorithms.
-Historical information relevant to the project should be included.
-
-Instead, this proposal is to build a model based on
-search/product pair and its relevance score and use it to predict the relevance score of out-of-sample
-pairs.
-
-Per each query/product pair, human rater reads the product description and attributes, then gives the relevance score.
-This is how data is produced.
+This proposal is to build a model based on set of data of (query,product,relevance_score) to predict the relevance score of out-of-sample pairs.
 
 This problem is clearly a regression problem.
 
-
-### Datasets and Inputs
+## Datasets and Inputs
 
 To create the ground truth labels, Home Depot has crowdsourced the search/product pairs to multiple human raters.
 
-The relevance is a number between 1 (not relevant) to 3 (highly relevant).
-Each pair was evaluated by at least three human raters. The provided relevance scores are the average value of the ratings.
+The relevance is a number between 1 (not relevant) to 3 (highly relevant). Each pair was evaluated by at least three human raters. 
+The provided relevance scores are the average value of the ratings. 
 
-There are three additional things to know about the ratings:
-- The specific instructions given to the raters is provided in relevance_instructions.docx.
-- Raters did not have access to the attributes.
-- Raters had access to product images, while the competition does not include images.
+The relevance score is between 1 (not relevant) to 3 (perfect match). A score of 2 represents partially or somewhat relevant.
 
-Training Data - training.csv
+### Training Data - training.csv
 - search_term
 - product_title
 - relevance
 
-Knewledge data
+Total 70,000+ rows in training data
+
+### Knewledge data
 - product_descriptions.csv : contains a text description of each product.
-- attributes.csv : provides extended information about a subset of the products
 
-### Solution Statement
-
-
-### Benchmark Model
+### Observations and Thoughts
+- histogram of relevant scores (how many is less than 2 versus how many is bigger than 2)
+- data needs to be converted to embedding vector
 
 
-### Evaluation Metrics
-_(approx. 1-2 paragraphs)_
+## Solution Statement
 
-In this section, propose at least one evaluation metric that can be used to quantify the performance of both the benchmark model and the solution model. The evaluation metric(s) you propose should be appropriate given the context of the data, the problem statement, and the intended solution. Describe how the evaluation metric(s) are derived and provide an example of their mathematical representations (if applicable). Complex evaluation metrics should be clearly defined and quantifiable (can be expressed in mathematical or logical terms).
+Apply supervised regression model
 
-### Project Design
 
-A theoretical workflow for approaching a solution given the problem.
+## Benchmark Model
+Use simple naive model as baseline model
+
+
+## Evaluation Metrics
+
+The quality of the model is evaluated using root mean squared error (RMSE)
+
+
+## Project Design
+
+A theoretical workflow for approaching a solution
+
+- Combining the input data from various files, pre-processing and cleaning of the data. Extract text data to generate numeric features 
+- Feature engineering and selection.
+- Implement regression model
+- Optimization of various implemented methods.
+- Ensemble Tree based methods.
+
+The quality and richness of the features created will determine the accuracy of the model.
