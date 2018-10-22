@@ -4,6 +4,7 @@ import os
 import time
 
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 import numpy as np
 import pandas as pd
@@ -49,6 +50,7 @@ def generateFeatures():
     time_start = time.time()
 
     df_train = pd.read_csv(DATA_DIR + '/train.csv.gz', encoding="ISO-8859-1")
+    print("Training Data Size : " % df_train.shape[0])
     df_test = pd.read_csv(DATA_DIR + '/test.csv.gz', encoding="ISO-8859-1")
     df_prodDesc = pd.read_csv(DATA_DIR + '/product_descriptions.csv.gz')
 
@@ -94,15 +96,25 @@ def generateFeatures():
     # --- Took: 28.34 minutes ---
 
 def exploreFeatures():
-    data = pd.read_csv(OUT_DIR + '/data.csv.gz', encoding="ISO-8859-1")
-    target = data['relevance']
-    print(target.head())
-    features = data.drop('relevance', axis=1)
-    sns.pairplot(features.iloc[:, :])
-    sns.regplot(x="term_few_desc", y="relevance", data=data)
+    # 2 - 74068 has relevance
+    # has to split dataset to two sets, a) train b) test
+    # df_train = pd.read_csv(DATA_DIR + '/train.csv.gz', encoding="ISO-8859-1")
+    # num_train = df_train.shape[0]
+    # print("Training Data Size : %d " % num_train)
+    num_train = 74067
+    data = pd.read_csv(OUT_DIR + '/data.csv.gz', encoding="ISO-8859-1").iloc[:num_train]
+    print(data.head(5))
+    print(data.describe())
+    print(data.info)
+    data.hist(bins=50, figsize=(20,15))
+    plt.show()
+    #target = data['relevance']
+
+    #features = data.drop('relevance', axis=1)
+    #sns.pairplot(features.iloc[:, :])
+    #sns.regplot(x="term_few_desc", y="relevance", data=data)
 
 if __name__ == '__main__':
-    generateFeatures()
-    #exploreFeatures()
-    # estimate : 35mins
+    #generateFeatures()
+    exploreFeatures()
 
