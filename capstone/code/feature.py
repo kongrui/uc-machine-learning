@@ -3,11 +3,17 @@
 import os
 import time
 
+import seaborn as sns
+
 import numpy as np
 import pandas as pd
 
 from nltk.stem.porter import *
 STEMMER = PorterStemmer()
+
+WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+DATA_DIR = os.path.realpath(WORK_DIR + '/data')
+OUT_DIR = os.path.realpath(WORK_DIR + '/features')
 
 def str_norm(str1, stemmer=STEMMER):
     str1 = str1.lower()
@@ -38,14 +44,9 @@ def str_whole_word(str1, str2):
             i_ += len(str1)
     return cnt
 
-if __name__ == '__main__':
-
+def generateFeatures():
     ROW_HEAD = 10
     time_start = time.time()
-
-    WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    DATA_DIR = os.path.realpath(WORK_DIR + '/data')
-    OUT_DIR = os.path.realpath(WORK_DIR + '/features')
 
     df_train = pd.read_csv(DATA_DIR + '/train.csv.gz', encoding="ISO-8859-1")
     df_test = pd.read_csv(DATA_DIR + '/test.csv.gz', encoding="ISO-8859-1")
@@ -82,12 +83,26 @@ if __name__ == '__main__':
 
     print(df_all.head(ROW_HEAD))
 
-    df_all.drop(['search_term', 'product_title', 'product_description'], axis=1, inplace=True)
+    df_all.drop(['search_term', 'product_title', 'product_description', 'id', 'product_uid'], axis=1, inplace=True)
 
     df_all.to_csv(OUT_DIR + "/data.csv.gz", compression='gzip', index=False)
 
     time_end = time.time()
     print("--- Norm: %s minutes ---" % round(((time_norm - time_start) / 60), 2))
     print("--- Took: %s minutes ---" % round(((time_end- time_start) / 60), 2))
+    # --- Norm: 27.67 minutes ---
+    # --- Took: 28.34 minutes ---
+
+def exploreFeatures():
+    data = pd.read_csv(OUT_DIR + '/data.csv.gz', encoding="ISO-8859-1")
+    target = data['relevance']
+    print(target.head())
+    features = data.drop('relevance', axis=1)
+    sns.pairplot(features.iloc[:, :])
+    sns.regplot(x="term_few_desc", y="relevance", data=data)
+
+if __name__ == '__main__':
+    generateFeatures()
+    #exploreFeatures()
     # estimate : 35mins
 
