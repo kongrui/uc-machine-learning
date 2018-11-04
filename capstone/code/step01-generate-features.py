@@ -58,7 +58,9 @@ def generateFeatures():
 
     print("No of rows : %d " % df_all.shape[0]) # 240,760
 
-    #df_all = df_all.head(25000)
+    # Generate sample set
+    # ROW_SMALL_SET = 1000
+    # df_all = df_all.head(ROW_SMALL_SET)
 
     # norm the text - lower, stemming
     # remove stop words and special chars
@@ -83,7 +85,7 @@ def generateFeatures():
 
     print(df_all.head(ROW_HEAD))
 
-    df_all.drop(['search_term', 'product_title', 'product_description', 'id', 'product_uid'], axis=1, inplace=True)
+    df_all.drop(['search_term', 'product_title', 'product_description', 'product_uid'], axis=1, inplace=True)
 
     df_all.to_csv(OUT_DIR + "/data.csv.gz", compression='gzip', index=False)
 
