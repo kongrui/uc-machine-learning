@@ -17,13 +17,11 @@ NUM_TRAIN_DATA = 74067
 WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR = os.path.realpath(WORK_DIR + '/features')
 
-def loadData():
-    data = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1").iloc[:NUM_TRAIN_DATA]
-    features = data.drop("relevance", axis=1)
-    labels = data["relevance"].copy()
-    return (features, labels)
-
-def linearRegression(X, y):
+def linearRegression():
+    data_all = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1")
+    data = data_all.iloc[:NUM_TRAIN_DATA]
+    X = data.drop(["relevance", "id"], axis=1)
+    y = data["relevance"].copy()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=RANDOM_STATE)
     print X_train.shape, y_train.shape
     print X_test.shape, y_test.shape
@@ -43,11 +41,21 @@ def linearRegression(X, y):
     Liner Regression R squared: 0.1453
     Liner Regression RMSE: 0.4927
     """
+    return regressor
+
+def submit(regressor):
+    data_all = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1")
+    data_submit = data_all.iloc[NUM_TRAIN_DATA:]
+    submit_id = data_submit['id']
+    submit_test = data_submit.drop(["relevance", "id"], axis=1)
+    submit_pred = regressor.predict(submit_test)
+    pd.DataFrame({"id": submit_id, "relevance": submit_pred})\
+        .to_csv(DATA_DIR + '/submission.csv.gz', index=False, compression='gzip')
 
 def trainModel():
     time_start = time.time()
-    X, y = loadData()
-    linearRegression(X, y)
+    regressor = linearRegression()
+    submit(regressor)
     time_end = time.time()
     print("--- Took: %s minutes ---" % round(((time_end - time_start) / 60), 2))
 
