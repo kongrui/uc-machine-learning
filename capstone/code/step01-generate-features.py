@@ -13,14 +13,39 @@ WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR = os.path.realpath(WORK_DIR + '/data')
 OUT_DIR = os.path.realpath(WORK_DIR + '/features')
 
-def str_norm(str1, stemmer=STEMMER):
+def str_norm(strIn, source="U", stemmer=STEMMER, debug=False):
+    str1 = strIn
     str1 = str1.lower()
-    str1 = str1.replace(" in.","in.")
-    str1 = str1.replace(" inch","in.")
-    str1 = str1.replace("inch","in.")
-    str1 = str1.replace(" in ","in. ")
-    str1 = (" ").join([stemmer.stem(z) for z in str1.split(" ")])
-    return str1
+    str1 = str_standardize_units(str1)
+    strOut = (" ").join([stemmer.stem(z) for z in str1.split(" ")])
+    if debug and strIn != strOut:
+        print ("\n" + source + "#IN #" + strIn + '\n' + source + "#OUT#" + strOut)
+    return strOut
+
+def str_standardize_units(s, replacements={"'|in|inches|inch": "in",
+                                           "''|ft|foot|feet": "ft",
+                                           "pound|pounds|lb|lbs": "lb",
+                                           "volt|volts|v": "v",
+                                           "watt|watts|w": "w",
+                                           "ounce|ounces|oz": "oz",
+                                           "gal|gallon": "gal",
+                                           "m|meter|meters": "m",
+                                           "cm|centimeter|centimeters": "cm",
+                                           "mm|milimeter|milimeters": "mm",
+                                           "yd|yard|yards": "yd",
+                                           }):
+    # Add spaces after measures
+    regexp_template = r"([/\.0-9]+)[-\s]*({0})([,\.\s]|$)"
+    regexp_subst_template = "\g<1> {0} "
+
+    s = re.sub(r"([^\s-])x([0-9]+)", "\g<1> x \g<2>", s).strip()
+
+    # Standartize unit names
+    for pattern, repl in replacements.iteritems():
+        s = re.sub(regexp_template.format(pattern), regexp_subst_template.format(repl), s)
+
+    s = re.sub(r"\s\s+", " ", s).strip()
+    return s
 
 def str_common_word(str1, str2):
     words, cnt = str1.split(), 0
@@ -47,11 +72,14 @@ def str_whole_word(str1, str2):
 #2 unit standard
 #3 number standard
 #4 words standarf: singular and plural, verb forms and tenses, etc
-def preprocessingTextFeatures(df_all):
-    df_all['search_term'] = df_all['search_term'].map(lambda x: str_norm(x))
-    df_all['product_title'] = df_all['product_title'].map(lambda x: str_norm(x))
-    df_all['product_description'] = df_all['product_description'].map(lambda x: str_norm(x))
+# brand name
+def preprocessingTextFeatures(df_all, debug=False):
+    df_all['search_term'] = df_all['search_term'].map(lambda x: str_norm(x, source="Q", debug=debug))
+    df_all['product_title'] = df_all['product_title'].map(lambda x: str_norm(x, source="T", debug=debug))
+    df_all['product_description'] = df_all['product_description'].map(lambda x: str_norm(x, source="D", debug=debug))
 
+#
+# brand name
 def extractNumberFeatures(df_all):
     df_all['len_query'] = df_all['search_term'].map(lambda x: len(x.split())).astype(np.int64)
     df_all['len_title'] = df_all['product_title'].map(lambda x: len(x.split())).astype(np.int64)
@@ -83,15 +111,17 @@ def generateFeatures(sampleSize=0):
 
     # Generate sample set
     if sampleSize > 0:
-      df_all = df_all.head(sampleSize)
+        debugPreprocessing = False
+        df_all = df_all.head(sampleSize)
+    else:
+        debugPreprocessing = False
 
     # preprocessing text fields first
     #
     # norm the text - lower, stemming
     # remove stop words and special chars
     # norm on numbers and brands ...
-    preprocessingTextFeatures(df_all)
-
+    preprocessingTextFeatures(df_all, debugPreprocessing)
     time_norm = time.time()
     print("Normalizing... dur=%s" % round(((time_norm - time_start) / 60), 2))
 
@@ -120,8 +150,8 @@ def generateFeatures(sampleSize=0):
 
 if __name__ == '__main__':
     # generate a small set
-    #generateFeatures(100)
+    generateFeatures(100)
 
     # geneare full set
-    generateFeatures()
+    #generateFeatures()
 
