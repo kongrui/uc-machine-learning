@@ -59,5 +59,11 @@ def trainModel():
     time_end = time.time()
     print("--- Took: %s minutes ---" % round(((time_end - time_start) / 60), 2))
 
+
+#
+# 0.43192 #1
+# 2018-11-01 0.49332 No.1459
+#
+#
 if __name__ == '__main__':
     trainModel()

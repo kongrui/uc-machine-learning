@@ -27,6 +27,15 @@ def histogram(data):
     plt.savefig(DATA_DIR + '/histogram.png',)
     plt.show()
 
+#
+# most of the products in the dataset are relevant to the corresponding queries,
+# and the average relevance score is 2.38 (median = 2.33).
+#
+def countplot(data):
+    sns.countplot(x="relevance", data=data, palette="Greens_d")
+    plt.savefig(DATA_DIR + '/countplot.png',)
+    plt.show()
+
 def corrmatrix(data):
     # coorelation
     corr_matrix = data.corr()
@@ -50,7 +59,8 @@ def corrmatrix(data):
 
 def exploreFeatures():
     data = loadData()
-    corrmatrix(data)
+    #corrmatrix(data)
+    countplot(data)
 
     #target = data['relevance']
 

@@ -5,24 +5,30 @@ July 21st, 2018
 
 ## Proposal
 
-Since my interested domain is the shopping/commerce/vertical search. I found this challenge from Kraggle. https://www.kaggle.com/c/home-depot-product-search-relevance
+Since my interested domain is the shopping/commerce/vertical search. 
+I found this challenge from Kraggle. https://www.kaggle.com/c/home-depot-product-search-relevance
 
 **Establish a model to predict the relevance of search results**
 
+
 ## Domain Background
 
-Search relevancy is an implicit measure Home Depot uses to gauge how quickly they can get customers to the right products. 
-Currently, human raters evaluate the impact of potential changes to their search algorithms, which is a slow and subjective process. 
-
-By removing or minimizing human input in search relevance evaluation, 
+Search relevancy is an implicit measure Home Depot uses to gauge how quickly they can get customers to the right products.
+ 
+Currently, human raters evaluate the impact of potential changes to their search algorithms, 
+which is a slow and subjective process. By removing or minimizing human input in search relevance evaluation, 
 Home Depot hopes to increase the number of iterations their team can perform on the current search algorithms.
 
 ## Problem Statement
 
-Shoppers rely on Home Depot’s product authority to find and buy the latest products and to get timely solutions to their home improvement needs. 
-Home Depot is asking Kagglers to help them improve their customers' shopping experience by developing a model that can accurately predict the relevance of search results.
+Shoppers rely on Home Depot’s product authority to find and buy the latest products 
+and to get timely solutions to their home improvement needs. 
 
-This proposal is to build a model based on set of data of (query,product,relevance_score) to predict the relevance score of out-of-sample pairs.
+Home Depot is asking Kagglers to help them improve their customers' shopping experience
+by developing a model that can accurately predict the relevance of search results.
+
+This proposal is to build a model based on set of data of (query,product,relevance_score) 
+to predict the relevance score of out-of-sample pairs.
 
 This problem is clearly a regression problem.
 
@@ -45,9 +51,15 @@ Total 70,000+ rows in training data
 ### Knewledge data
 - product_descriptions.csv : contains a text description of each product.
 
-### Observations and Thoughts
-- histogram of relevant scores (how many is less than 2 versus how many is bigger than 2)
-- data needs to be converted to embedding vector
+### (WIP) Observations and Thoughts
+
+- Histogram of relevant scores (how many is less than 2 versus how many is bigger than 2)
+
+. most of the products in the dataset are relevant to the corresponding queries, 
+and the average relevance score is 2.38 (median = 2.33).
+
+
+- Data needs to be converted to embedding vector. Otherwise text itself can not be processed by an algorithm
 
 
 ## Solution Statement
