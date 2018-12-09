@@ -16,6 +16,7 @@ NUM_TRAIN_DATA = 74067
 
 WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR = os.path.realpath(WORK_DIR + '/features')
+TEMP_DIR = os.path.realpath(WORK_DIR + '/temp')
 
 def linearRegression():
     data_all = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1")
@@ -50,7 +51,7 @@ def submit(regressor):
     submit_test = data_submit.drop(["relevance", "id"], axis=1)
     submit_pred = regressor.predict(submit_test)
     pd.DataFrame({"id": submit_id, "relevance": submit_pred})\
-        .to_csv(DATA_DIR + '/submission.csv.gz', index=False, compression='gzip')
+        .to_csv(TEMP_DIR + '/submission.csv.gz', index=False, compression='gzip')
 
 def trainModel():
     time_start = time.time()

@@ -36,6 +36,16 @@ def countplot(data):
     plt.savefig(DATA_DIR + '/countplot.png',)
     plt.show()
 
+#
+# Split products into buckets based on their product_uid
+# the relevance scores for products with different product ids
+#
+def pointplot(data):
+    data["bucket"] = np.floor(data["product_uid"] / 1000)
+    sns.pointplot(x="bucket", y="relevance", data=data[["bucket", "relevance"]])
+    plt.show()
+
+
 def corrmatrix(data):
     # coorelation
     corr_matrix = data.corr()
@@ -60,7 +70,8 @@ def corrmatrix(data):
 def exploreFeatures():
     data = loadData()
     #corrmatrix(data)
-    countplot(data)
+    #countplot(data)
+    pointplot(data)
 
     #target = data['relevance']
 
