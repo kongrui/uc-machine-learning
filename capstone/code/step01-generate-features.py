@@ -42,6 +42,29 @@ def str_whole_word(str1, str2):
             i_ += len(str1)
     return cnt
 
+# TODOs
+#1 typo
+#2 unit standard
+#3 number standard
+#4 words standarf: singular and plural, verb forms and tenses, etc
+def preprocessingTextFeatures(df_all):
+    df_all['search_term'] = df_all['search_term'].map(lambda x: str_norm(x))
+    df_all['product_title'] = df_all['product_title'].map(lambda x: str_norm(x))
+    df_all['product_description'] = df_all['product_description'].map(lambda x: str_norm(x))
+
+def extractNumberFeatures(df_all):
+    df_all['len_query'] = df_all['search_term'].map(lambda x: len(x.split())).astype(np.int64)
+    df_all['len_title'] = df_all['product_title'].map(lambda x: len(x.split())).astype(np.int64)
+    df_all['len_desc'] = df_all['product_description'].map(lambda x: len(x.split())).astype(np.int64)
+    df_all['query_feq_title'] = df_all.apply(lambda x: str_whole_word(x['search_term'], x['product_title']), axis=1)
+    df_all['query_feq_desc'] = df_all.apply(lambda x: str_whole_word(x['search_term'], x['product_description']),
+                                            axis=1)
+    df_all['term_feq_title'] = df_all.apply(lambda x: str_common_word(x['search_term'], x['product_title']), axis=1)
+    df_all['term_feq_desc'] = df_all.apply(lambda x: str_common_word(x['search_term'], x['product_description']),
+                                           axis=1)
+    df_all['term_ratio_title'] = df_all['term_feq_title'] / df_all['len_query']
+    df_all['term_ratio_desc'] = df_all['term_feq_desc'] / df_all['len_query']
+
 def generateFeatures(sampleSize=0):
     ROW_HEAD = 10
     time_start = time.time()
@@ -62,27 +85,20 @@ def generateFeatures(sampleSize=0):
     if sampleSize > 0:
       df_all = df_all.head(sampleSize)
 
+    # preprocessing text fields first
+    #
     # norm the text - lower, stemming
     # remove stop words and special chars
     # norm on numbers and brands ...
-    df_all['search_term'] = df_all['search_term'].map(lambda x: str_norm(x))
-    df_all['product_title'] = df_all['product_title'].map(lambda x: str_norm(x))
-    df_all['product_description'] = df_all['product_description'].map(lambda x: str_norm(x))
+    preprocessingTextFeatures(df_all)
 
     time_norm = time.time()
     print("Normalizing... dur=%s" % round(((time_norm - time_start) / 60), 2))
 
     # derive text feature
-    df_all['len_query'] = df_all['search_term'].map(lambda x: len(x.split())).astype(np.int64)
-    df_all['len_title'] = df_all['product_title'].map(lambda x: len(x.split())).astype(np.int64)
-    df_all['len_desc'] = df_all['product_description'].map(lambda x: len(x.split())).astype(np.int64)
-    df_all['query_feq_title'] = df_all.apply(lambda x: str_whole_word(x['search_term'], x['product_title']), axis=1)
-    df_all['query_feq_desc'] = df_all.apply(lambda x: str_whole_word(x['search_term'], x['product_description']), axis=1)
-    df_all['term_feq_title'] = df_all.apply(lambda x: str_common_word(x['search_term'], x['product_title']), axis=1)
-    df_all['term_feq_desc'] = df_all.apply(lambda x: str_common_word(x['search_term'], x['product_description']), axis=1)
-    df_all['term_ratio_title'] = df_all['term_feq_title'] / df_all['len_query']
-    df_all['term_ratio_desc'] = df_all['term_feq_desc'] / df_all['len_query']
-
+    extractNumberFeatures(df_all)
+    time_extract = time.time()
+    print("Extracting... dur=%s" % round(((time_extract - time_norm) / 60), 2))
     print(df_all.head(ROW_HEAD))
 
     df_all.drop(['search_term', 'product_title', 'product_description'], axis=1, inplace=True)

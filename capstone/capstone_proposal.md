@@ -55,11 +55,10 @@ Total 70,000+ rows in training data
 
 - Histogram of relevant scores (how many is less than 2 versus how many is bigger than 2)
 
-. most of the products in the dataset are relevant to the corresponding queries, 
-and the average relevance score is 2.38 (median = 2.33).
-
-
 - Data needs to be converted to embedding vector. Otherwise text itself can not be processed by an algorithm
+Hence several typical NLP tasks can apply here to normalize between the query and product, including
+spelling error or inconsistence, numer standardizaton like different units, 
+and words standard like singular and plural, verb forms and tenses
 
 
 ## Solution Statement
