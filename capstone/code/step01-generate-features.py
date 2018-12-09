@@ -73,6 +73,8 @@ def str_whole_word(str1, str2):
 #3 number standard
 #4 words standarf: singular and plural, verb forms and tenses, etc
 # brand name
+# stop words
+# synonyms
 def preprocessingTextFeatures(df_all, debug=False):
     df_all['search_term'] = df_all['search_term'].map(lambda x: str_norm(x, source="Q", debug=debug))
     df_all['product_title'] = df_all['product_title'].map(lambda x: str_norm(x, source="T", debug=debug))
@@ -150,8 +152,8 @@ def generateFeatures(sampleSize=0):
 
 if __name__ == '__main__':
     # generate a small set
-    generateFeatures(100)
+    # generateFeatures(100)
 
     # geneare full set
-    #generateFeatures()
+    generateFeatures()
 
