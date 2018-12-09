@@ -42,7 +42,7 @@ def str_whole_word(str1, str2):
             i_ += len(str1)
     return cnt
 
-def generateFeatures():
+def generateFeatures(sampleSize=0):
     ROW_HEAD = 10
     time_start = time.time()
 
@@ -59,8 +59,8 @@ def generateFeatures():
     print("No of rows : %d " % df_all.shape[0]) # 240,760
 
     # Generate sample set
-    # ROW_SMALL_SET = 1000
-    # df_all = df_all.head(ROW_SMALL_SET)
+    if sampleSize > 0:
+      df_all = df_all.head(sampleSize)
 
     # norm the text - lower, stemming
     # remove stop words and special chars
@@ -85,9 +85,14 @@ def generateFeatures():
 
     print(df_all.head(ROW_HEAD))
 
-    df_all.drop(['search_term', 'product_title', 'product_description', 'product_uid'], axis=1, inplace=True)
+    df_all.drop(['search_term', 'product_title', 'product_description'], axis=1, inplace=True)
 
-    df_all.to_csv(OUT_DIR + "/data.csv.gz", compression='gzip', index=False)
+    if sampleSize > 0:
+        datafile = "/data." + str(sampleSize) + ".csv"
+        df_all.to_csv(OUT_DIR + datafile, index=False)
+    else:
+        datafile = "/data.csv.gz"
+        df_all.to_csv(OUT_DIR + datafile, compression='gzip', index=False)
 
     time_end = time.time()
     print("--- Norm: %s minutes ---" % round(((time_norm - time_start) / 60), 2))
@@ -98,5 +103,9 @@ def generateFeatures():
     # num_train = 74067
 
 if __name__ == '__main__':
-    generateFeatures()
+    # generate a small set
+    generateFeatures(100)
+
+    # geneare full set
+    #generateFeatures()
 
