@@ -51,7 +51,7 @@ Total 70,000+ rows in training data
 ### Knewledge data
 - product_descriptions.csv : contains a text description of each product.
 
-### (WIP) Observations and Thoughts
+### Observations and Thoughts
 
 - Histogram of relevant scores (how many is less than 2 versus how many is bigger than 2)
 
@@ -60,14 +60,24 @@ Hence several typical NLP tasks can apply here to normalize between the query an
 spelling error or inconsistence, numer standardizaton like different units, 
 and words standard like singular and plural, verb forms and tenses
 
+- The general methodology is to extract features as vector from term vs from (title,description) 
+and compute the distance between them in terms of text similiarity or semantic similarity. 
+LSA, word2vec or similar methods can be implemented
+
 
 ## Solution Statement
 
-Apply supervised regression model
+Apply supervised regression model to predict a numeric relevance score. 
+
+Explore various algorithms: from linear regression to random forest and gradient boosted regression trees. 
+
+Then built an ensemble of different approaches
 
 
 ## Benchmark Model
-Use simple naive model as baseline model
+- Use simple naive model as baseline model
+- Per [Kraggle leader board](https://www.kaggle.com/c/home-depot-product-search-relevance/leaderboard), 
+the top one is `0.43192` of RMSE. I will upload my model to compare and hope to achieve good ranking
 
 
 ## Evaluation Metrics
@@ -79,10 +89,13 @@ The quality of the model is evaluated using root mean squared error (RMSE)
 
 A theoretical workflow for approaching a solution
 
-- Combining the input data from various files, pre-processing and cleaning of the data. Extract text data to generate numeric features 
+- Combining the input data from various files, pre-processing and cleaning of the data. 
+  Extract text data to generate numeric features
 - Feature engineering and selection.
 - Implement regression model
 - Optimization of various implemented methods.
 - Ensemble Tree based methods.
 
 The quality and richness of the features created will determine the accuracy of the model.
+
+
