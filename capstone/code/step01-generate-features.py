@@ -104,8 +104,8 @@ def generateFeatures(sampleSize=0):
 
 if __name__ == '__main__':
     # generate a small set
-    generateFeatures(100)
+    #generateFeatures(100)
 
     # geneare full set
-    #generateFeatures()
+    generateFeatures()
 

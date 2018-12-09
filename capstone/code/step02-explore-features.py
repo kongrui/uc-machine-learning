@@ -11,6 +11,7 @@ import pandas as pd
 
 WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR = os.path.realpath(WORK_DIR + '/features')
+TEMP_DIR = os.path.realpath(WORK_DIR + '/temp')
 
 NUM_TRAIN_DATA = 74067
 
@@ -24,7 +25,7 @@ def loadData():
 def histogram(data):
     # histogram
     data.hist(bins=50, figsize=(20,15))
-    plt.savefig(DATA_DIR + '/histogram.png',)
+    plt.savefig(TEMP_DIR + '/histogram.png',)
     plt.show()
 
 #
@@ -33,7 +34,7 @@ def histogram(data):
 #
 def countplot(data):
     sns.countplot(x="relevance", data=data, palette="Greens_d")
-    plt.savefig(DATA_DIR + '/countplot.png',)
+    plt.savefig(TEMP_DIR + '/countplot.png',)
     plt.show()
 
 #
@@ -43,6 +44,7 @@ def countplot(data):
 def pointplot(data):
     data["bucket"] = np.floor(data["product_uid"] / 1000)
     sns.pointplot(x="bucket", y="relevance", data=data[["bucket", "relevance"]])
+    plt.savefig(TEMP_DIR + '/pointplot.png',)
     plt.show()
 
 
