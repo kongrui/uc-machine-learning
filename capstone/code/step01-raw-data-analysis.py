@@ -17,6 +17,9 @@ NUM_TRAIN_DATA = 74067
 
 def rawDataAnalysis():
     df_train = pd.read_csv(DATA_DIR + "/train.csv.gz", encoding="ISO-8859-1")
+    product_counts = pd.DataFrame(pd.Series(df_train.groupby(["product_uid"]).size(), name="product_count"))
+    df_train = pd.merge(df_train, product_counts, left_on="product_uid", right_index=True, how="left")
+
     # check the decoration
     print(df_train.columns)
     """
@@ -43,12 +46,28 @@ def rawDataAnalysis():
     unique                   11795
     top       bed frames headboaed 16
     """
+    print(df_train['product_title'].describe())
+    """
+    unique                                                53489
+    top       Lithonia Lighting All Season 4 ft. 2-Light Gre...
+    freq                                                     21
+    """
+    print(df_train['product_count'].describe())
+    """
+    mean         1.935450
+    std          1.706594
+    min          1.000000
+    25%          1.000000
+    50%          1.000000
+    75%          2.000000
+    max         21.000000
+    """
     sns.distplot(df_train['relevance'])
     plt.savefig(IMG_DIR + '/01.relevance-dist-plot.png',)
-    plt.show()
+    #plt.show()
     sns.countplot(x="relevance", data=df_train)
     plt.savefig(IMG_DIR + '/01.relevance-counter-plot.png')
-    plt.show()
+    #plt.show()
 
 if __name__ == '__main__':
     rawDataAnalysis()
