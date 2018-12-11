@@ -62,6 +62,19 @@ def rawDataAnalysis():
     75%          2.000000
     max         21.000000
     """
+    df_sterm = df_train.search_term.str.count("\\s+") + 1
+    print(df_sterm.describe())
+    """
+    mean         3.159207
+    std          1.262096
+    min          1.000000
+    25%          2.000000
+    50%          3.000000
+    75%          4.000000
+    max         14.000000
+    """
+    df_sterm.hist(bins=30, figsize=(20, 15))
+    plt.savefig(IMG_DIR + '/01.search-term-histogram.png')
     sns.distplot(df_train['relevance'])
     plt.savefig(IMG_DIR + '/01.relevance-dist-plot.png',)
     #plt.show()
