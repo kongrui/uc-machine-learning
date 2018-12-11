@@ -75,6 +75,8 @@ def str_whole_word(str1, str2):
 # brand name
 # stop words
 # synonyms
+# stop words - from sklearn.feature_extraction import text
+# # stop_ = list(text.ENGLISH_STOP_WORDS)
 def preprocessingTextFeatures(df_all, debug=False):
     df_all['search_term'] = df_all['search_term'].map(lambda x: str_norm(x, source="Q", debug=debug))
     df_all['product_title'] = df_all['product_title'].map(lambda x: str_norm(x, source="T", debug=debug))
@@ -95,7 +97,7 @@ def extractNumberFeatures(df_all):
     df_all['term_ratio_title'] = df_all['term_feq_title'] / df_all['len_query']
     df_all['term_ratio_desc'] = df_all['term_feq_desc'] / df_all['len_query']
 
-def generateFeatures(sampleSize=0):
+def featureEngineering(sampleSize=0):
     ROW_HEAD = 10
     time_start = time.time()
 
@@ -152,8 +154,8 @@ def generateFeatures(sampleSize=0):
 
 if __name__ == '__main__':
     # generate a small set
-    # generateFeatures(100)
+    # featureEngineering(100)
 
     # geneare full set
-    generateFeatures()
+    featureEngineering()
 

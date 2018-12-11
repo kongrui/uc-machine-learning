@@ -28,14 +28,7 @@ def histogram(data):
     plt.savefig(TEMP_DIR + '/histogram.png',)
     plt.show()
 
-#
-# most of the products in the dataset are relevant to the corresponding queries,
-# and the average relevance score is 2.38 (median = 2.33).
-#
-def countplot(data):
-    sns.countplot(x="relevance", data=data, palette="Greens_d")
-    plt.savefig(TEMP_DIR + '/countplot.png',)
-    plt.show()
+
 
 #
 # Split products into buckets based on their product_uid

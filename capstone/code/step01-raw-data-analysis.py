@@ -10,77 +10,46 @@ import numpy as np
 import pandas as pd
 
 WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-DATA_DIR = os.path.realpath(WORK_DIR + '/features')
-TEMP_DIR = os.path.realpath(WORK_DIR + '/temp')
+DATA_DIR = os.path.realpath(WORK_DIR + '/data')
+IMG_DIR = os.path.realpath(WORK_DIR + '/images')
 
 NUM_TRAIN_DATA = 74067
 
-def loadData():
-    data = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1").iloc[:NUM_TRAIN_DATA]
-    #print(data.head(5))
-    #print(data.describe())
-    #print(data.info)
-    return data
-
-def histogram(data):
-    # histogram
-    data.hist(bins=50, figsize=(20,15))
-    plt.savefig(TEMP_DIR + '/histogram.png',)
-    plt.show()
-
-#
-# most of the products in the dataset are relevant to the corresponding queries,
-# and the average relevance score is 2.38 (median = 2.33).
-#
-def countplot(data):
-    sns.countplot(x="relevance", data=data, palette="Greens_d")
-    plt.savefig(TEMP_DIR + '/countplot.png',)
-    plt.show()
-
-#
-# Split products into buckets based on their product_uid
-# the relevance scores for products with different product ids
-#
-def pointplot(data):
-    data["bucket"] = np.floor(data["product_uid"] / 1000)
-    sns.pointplot(x="bucket", y="relevance", data=data[["bucket", "relevance"]])
-    plt.savefig(TEMP_DIR + '/pointplot.png',)
-    plt.show()
-
-
-def corrmatrix(data):
-    # coorelation
-    corr_matrix = data.corr()
-    print(corr_matrix['relevance'].sort_values(ascending=False))
+def rawDataAnalysis():
+    df_train = pd.read_csv(DATA_DIR + "/train.csv.gz", encoding="ISO-8859-1")
+    # check the decoration
+    print(df_train.columns)
     """
-    relevance           1.000000
-    term_ratio_title    0.352815
-    term_ratio_desc     0.285134
-    term_feq_title      0.215921
-    query_feq_title     0.170965
-    term_feq_desc       0.161321
-    query_feq_desc      0.086555
-    len_desc            0.040001
-    len_title          -0.019840
-    len_query          -0.073189
+    Index([u'id', u'product_uid', u'product_title', u'search_term', u'relevance'], dtype='object')
     """
-
-    #df_all['term_ratio_title'] = df_all['term_feq_title'] / df_all['len_query']
-    #df_all['term_ratio_desc'] = df_all['term_feq_desc'] / df_all['len_query']
-
-
-def exploreFeatures():
-    data = loadData()
-    #corrmatrix(data)
-    #countplot(data)
-    pointplot(data)
-
-    #target = data['relevance']
-
-    #features = data.drop('relevance', axis=1)
-    #sns.pairplot(features.iloc[:, :])
-    #sns.regplot(x="term_few_desc", y="relevance", data=data)
+    print(df_train['relevance'].describe())
+    """
+    count    74067.000000
+    mean         2.381634
+    std          0.533984
+    min          1.000000
+    25%          2.000000
+    50%          2.330000
+    75%          3.000000
+    max          3.000000
+    The relevance is a number between 1 to 3. 
+     1 (not relevant)
+     2 (mildly relevant)
+     3 (highly relevant). 
+    the query and products are mostly relevance per countplot 
+    """
+    print(df_train['search_term'].describe())
+    """
+    unique                   11795
+    top       bed frames headboaed 16
+    """
+    sns.distplot(df_train['relevance'])
+    plt.savefig(IMG_DIR + '/01.relevance-dist-plot.png',)
+    plt.show()
+    sns.countplot(x="relevance", data=df_train)
+    plt.savefig(IMG_DIR + '/01.relevance-counter-plot.png')
+    plt.show()
 
 if __name__ == '__main__':
-    exploreFeatures()
+    rawDataAnalysis()
 
