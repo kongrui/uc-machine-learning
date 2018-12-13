@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 
-import os
 import time
 
 import numpy as np
 import pandas as pd
-
 from nltk.stem.porter import *
+
 STEMMER = PorterStemmer()
 
-WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-DATA_DIR = os.path.realpath(WORK_DIR + '/data')
-OUT_DIR = os.path.realpath(WORK_DIR + '/features')
+from regressionutil import DATA_DIR
 
 def str_norm(strIn, source="U", stemmer=STEMMER, debug=False):
     str1 = strIn
@@ -139,10 +136,10 @@ def featureEngineering(sampleSize=0):
 
     if sampleSize > 0:
         datafile = "/data." + str(sampleSize) + ".csv"
-        df_all.to_csv(OUT_DIR + datafile, index=False)
+        df_all.to_csv(DATA_DIR + datafile, index=False)
     else:
         datafile = "/data.csv.gz"
-        df_all.to_csv(OUT_DIR + datafile, compression='gzip', index=False)
+        df_all.to_csv(DATA_DIR + datafile, compression='gzip', index=False)
 
     time_end = time.time()
     print("--- Norm: %s minutes ---" % round(((time_norm - time_start) / 60), 2))

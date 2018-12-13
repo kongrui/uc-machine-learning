@@ -1,22 +1,16 @@
 #!/usr/bin/env python
 
 import os
-import time
 
-import seaborn as sns
 import matplotlib.pyplot as plt
-
-import numpy as np
 import pandas as pd
+import seaborn as sns
 
-WORK_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-DATA_DIR = os.path.realpath(WORK_DIR + '/data')
-IMG_DIR = os.path.realpath(WORK_DIR + '/images')
-
-NUM_TRAIN_DATA = 74067
+from regressionutil import RAW_DIR
+from regressionutil import IMG_DIR
 
 def rawDataAnalysis():
-    df_train = pd.read_csv(DATA_DIR + "/train.csv.gz", encoding="ISO-8859-1")
+    df_train = pd.read_csv(RAW_DIR + "/train.csv.gz", encoding="ISO-8859-1")
     product_counts = pd.DataFrame(pd.Series(df_train.groupby(["product_uid"]).size(), name="product_count"))
     df_train = pd.merge(df_train, product_counts, left_on="product_uid", right_index=True, how="left")
 
