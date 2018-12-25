@@ -1,21 +1,8 @@
 #!/usr/bin/env python
 
-import time
-
-import numpy as np
 from sklearn import linear_model
-from sklearn.metrics import mean_squared_error
 
 from regressionutil import *
-
-def trainModel(data, name, regressor):
-    time_start = time.time()
-    # {'train': {'X': X_train, 'y': y_train}, 'test': {'X': X_test, 'y': y_test}}
-    regressor.fit(data['train']['X'], data['train']['y'])
-    y_pred = regressor.predict(data['test']['X'])
-    rmse = np.sqrt(mean_squared_error(data['test']['y'], y_pred))
-    time_end = time.time()
-    return (rmse, time_end - time_start)
 
 def main():
     X_train_origin, X_test_origin, y_train_origin, y_test_origin = get_data_tuple()

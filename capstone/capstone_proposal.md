@@ -81,9 +81,7 @@ the top one is `0.43192` of RMSE. I will upload my model to compare and hope to 
 
 
 ## Evaluation Metrics
-
 The quality of the model is evaluated using root mean squared error (RMSE)
-
 
 ## Project Design
 

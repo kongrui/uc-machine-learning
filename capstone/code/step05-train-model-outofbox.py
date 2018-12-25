@@ -1,97 +1,29 @@
 #!/usr/bin/env python
 
-import time
-
-import pandas as pd
-import numpy as np
-from sklearn import linear_model
-from sklearn.metrics import mean_squared_error
-
-from regressionutil import submit_result_test, get_data, get_data_tuple
-
-from sklearn import svm
-from sklearn import tree
 from sklearn import ensemble
-from sklearn import naive_bayes
+from sklearn import linear_model
+from sklearn import tree
 
-from regressionutil import DATA_DIR
-from regressionutil import IMG_DIR
+from regressionutil import *
 from regressionutil import NUM_TRAIN_DATA
 from regressionutil import RANDOM_STATE
 
-#def trainModel(data, name, regressor):
-#    time_start = time.time()
-#    regressor.fit(data['train']['X'], data['train']['y'])
-#    y_pred = regressor.predict(data['test']['X'])
-#    rmse = np.sqrt(mean_squared_error(y_pred, data['test']['y']))
-#    time_end = time.time()
-#    return (rmse, time_end - time_start)
-
 def train_classifier(clf, X_train, y_train):
     start = time.time()
     clf.fit(X_train, y_train)
     end = time.time()
     return end - start
 
-def predict_labels(clf, features, target):
-    start = time.time()
-    y_pred = clf.predict(features)
-    end = time.time()
-    print "Made predictions in {:.4f} seconds.".format(end - start)
-    score = np.sqrt(mean_squared_error(target, y_pred))
-    dur = end - start
-    return score, dur
-
-def tryFewAlgorithms():
-    data = get_data()
-
-    #
-    #regressor = svm.SVR(kernel='rbf', gamma='auto')
-    #rmse, dur = trainModel(data, 'svm', regressor)
-    #print('SVM Regression RMSE=%.6f, dur=%s' % (rmse, dur))
-    """
-    SVM Regression RMSE=0.544827, dur=228.630357981
-    low and 
-    """
-
-    #
-    #regressor = tree.DecisionTreeRegressor(random_state = 0)
-    #rmse, dur = trainModel(data, 'dt', regressor)
-    #print('DT Regression RMSE=%.6f, dur=%s' % (rmse, dur))
-    """
-    DT Regression RMSE=0.683829, dur=0.518572092056
-    """
-
-    #regressor = ensemble.RandomForestRegressor(random_state = 0)
-    #rmse, dur = trainModel(data, 'rf', regressor)
-    #print('RF Regression RMSE=%.6f, dur=%s' % (rmse, dur))
-    """
-    RF Regression RMSE=0.519509, dur=2.308355093
-    """
-
-    regressor = ensemble.GradientBoostingRegressor(random_state = 0)
-    rmse, dur = trainModel(data, 'rf', regressor)
-    print('GB Regression RMSE=%.6f, dur=%s' % (rmse, dur))
-    """
-    GB Regression RMSE=0.480073, dur=2.14031505585
-    """
-
-def train_classifier(clf, X_train, y_train):
-    start = time.time()
-    clf.fit(X_train, y_train)
-    end = time.time()
-    return end - start
 
 def tryFewModels():
-
     classifiers = [
         linear_model.LinearRegression()
         , tree.DecisionTreeRegressor(random_state=RANDOM_STATE)
         , ensemble.GradientBoostingRegressor(random_state=RANDOM_STATE)
-        , ensemble.RandomForestRegressor(random_state = RANDOM_STATE)
+        , ensemble.RandomForestRegressor(random_state=RANDOM_STATE)
     ]
 
-    X_train, X_test, y_train, y_test = get_data_tuple()
+    X_train_origin, X_test_origin, y_train_origin, y_test_origin = get_data_tuple()
 
     for clf in classifiers:
         results = {
@@ -102,25 +34,47 @@ def tryFewModels():
             'score - train': [],
             'score - test': []
         }
-        #for size in [1000, 5000, 10000, 20000, 30000, 40000, 50000, 60000]:
-        for size in [1000, 5000, 10000]:
-            time_train = train_classifier(clf, X_train[:size], y_train[:size])
-            score_train, time_predict = predict_labels(clf, X_train[:size], y_train[:size])
-            score_test, time_predict = predict_labels(clf, X_test, y_test)
+        sizeTest = 22221  # 22221 sizeTrain = 51846  # 51846
+        for size in [5000, 10000, NUM_TRAIN_DATA]:
+            X_train, X_test, y_train, y_test = \
+                X_train_origin[:size], X_test_origin[:sizeTest] \
+                    , y_train_origin[:size], y_test_origin[:sizeTest]
+            time_train = train_classifier(clf, X_train, y_train)
+            train_pred, train_dur = predict_labels(clf, X_train)
+            train_score = calculate_metrics(y_train, train_pred)
+            test_pred, test_dur = predict_labels(clf, X_test)
+            test_score = calculate_metrics(y_test, test_pred)
             results['Classifier'].append(clf.__class__.__name__)
             results['size'].append(size)
-            results['time - train'].append("{:.4f}".format(time_train))
-            results['time - predict'].append("{:.4f}".format(time_predict))
-            results['score - train'].append(score_train)
-            results['score - test'].append(score_test)
+            results['time - train'].append("{:.4f}".format(train_dur))
+            results['time - predict'].append("{:.4f}".format(test_dur))
+            results['score - train'].append(train_score)
+            results['score - test'].append(test_score)
         df = pd.DataFrame(results)
         print(df.to_csv(index=False, sep='|'))
 
 
-#
-# 0.43192 #1
-# 2018-11-01 0.49332 No.1459
-#
-#
+"""
+Classifier|score - test|score - train|size|time - predict|time - train
+LinearRegression|0.4888664177838271|0.4949631820999136|5000|0.0014|0.0030
+LinearRegression|0.4888296261069622|0.4921368308721272|10000|0.0017|0.0015
+LinearRegression|0.48851831932878437|0.48828185422433157|74067|0.0006|0.0040
+
+Classifier|score - test|score - train|size|time - predict|time - train
+DecisionTreeRegressor|0.694166418491208|0.011547294055318761|5000|0.0047|0.0016
+DecisionTreeRegressor|0.6822399200039269|0.03208177052470764|10000|0.0048|0.0025
+DecisionTreeRegressor|0.6840096861311904|0.06677815630290426|74067|0.0070|0.0190
+
+Classifier|score - test|score - train|size|time - predict|time - train
+GradientBoostingRegressor|0.48438658687074404|0.4674867633928048|5000|0.0356|0.0100
+GradientBoostingRegressor|0.4827951980395866|0.472821443715223|10000|0.0249|0.0111
+GradientBoostingRegressor|0.48007840339553226|0.47806534768029424|74067|0.0315|0.0918
+
+Classifier|score - test|score - train|size|time - predict|time - train
+RandomForestRegressor|0.5243974138545319|0.2244114168698989|5000|0.0314|0.0106
+RandomForestRegressor|0.5230794816950426|0.2238573140167452|10000|0.0370|0.0181
+RandomForestRegressor|0.5216206509872446|0.22546386042857158|74067|0.0558|0.1391
+"""
+
 if __name__ == '__main__':
     tryFewModels()
