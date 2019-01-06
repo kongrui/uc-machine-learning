@@ -10,7 +10,7 @@ I found this challenge from Kraggle. https://www.kaggle.com/c/home-depot-product
 
 Customer can come to homedepot.com to find and buy the latest products and to get timely solutions
  to their home improvement needs. It is critical for HomeDepot not only to provide accurate product 
- infomation but also relevant results which best match customers’need.
+ information but also relevant results which best match customers’need.
 
 The relevance between search/product pair can be evaluated by human raters. However, human rating
  is a slow and subjective process. There are almost infinite search/product pairs so it is impossible
@@ -188,18 +188,18 @@ testSet  RMSE=0.488518
 
 |Classifier|score - test|score - train|size|time - predict|time - train|
 |----------|------------|-------------|----|--------------|-------------|
-|LinearRegression|0.4888664177838271|0.4949631820999136|5000|0.0014|0.0030|
-|LinearRegression|0.4888296261069622|0.4921368308721272|10000|0.0017|0.0015|
-|LinearRegression|0.48851831932878437|0.48828185422433157|74067|0.0006|0.0040|
-|DecisionTreeRegressor|0.694166418491208|0.011547294055318761|5000|0.0047|0.0016|
-|DecisionTreeRegressor|0.6822399200039269|0.03208177052470764|10000|0.0048|0.0025|
-|DecisionTreeRegressor|0.6840096861311904|0.06677815630290426|74067|0.0070|0.0190|
-|GradientBoostingRegressor|0.48438658687074404|0.4674867633928048|5000|0.0356|0.0100|
-|GradientBoostingRegressor|0.4827951980395866|0.472821443715223|10000|0.0249|0.0111|
-|GradientBoostingRegressor|0.48007840339553226|0.47806534768029424|74067|0.0315|0.0918|
-|RandomForestRegressor|0.5243974138545319|0.2244114168698989|5000|0.0314|0.0106|
-|RandomForestRegressor|0.5230794816950426|0.2238573140167452|10000|0.0370|0.0181|
-|RandomForestRegressor|0.5216206509872446|0.22546386042857158|74067|0.0558|0.1391|
+|LinearRegression|0.4888|0.4949|5000|0.0014|0.0030|
+|LinearRegression|0.4888|0.4921|10000|0.0017|0.0015|
+|LinearRegression|0.4885|0.4882|74067|0.0006|0.0040|
+|DecisionTreeRegressor|0.6941|0.0115|5000|0.0047|0.0016|
+|DecisionTreeRegressor|0.6822|0.0320|10000|0.0048|0.0025|
+|DecisionTreeRegressor|0.6840|0.0667|74067|0.0070|0.0190|
+|GradientBoostingRegressor|0.4843|0.4674|5000|0.0356|0.0100|
+|GradientBoostingRegressor|0.4827|0.4728|10000|0.0249|0.0111|
+|GradientBoostingRegressor|0.4800|0.4780|74067|0.0315|0.0918|
+|RandomForestRegressor|0.5243|0.22441|5000|0.0314|0.0106|
+|RandomForestRegressor|0.5230|0.22385|10000|0.0370|0.0181|
+|RandomForestRegressor|0.5216|0.22546|74067|0.0558|0.1391|
 
 given the result above, I decide to further improve GradientBoostingRegressor model
 
@@ -214,7 +214,8 @@ Apply GridsearchCV method to yield the best result as
 trainSet score=0.473896
 testSet score=0.479311
 Feature Importances
-{'learning_rate': 0.1, 'min_samples_leaf': 50, 'n_estimators': 45, 'subsample': 0.8, 'max_features': 4, 'max_depth': 6}
+{'learning_rate': 0.1, 'min_samples_leaf': 50, 
+'n_estimators': 45, 'subsample': 0.8, 'max_features': 4, 'max_depth': 6}
 Best CV Score:
 -0.4798894154650474
 ```
