@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-import os
-import time
-
 import seaborn as sns
 import matplotlib.pyplot as plt
 
