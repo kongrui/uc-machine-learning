@@ -334,7 +334,7 @@ did few attempts by selecting parameter options and apply GridsearchCV method
     
    finally yield the best result as
 
-    ```
+```
     trainSet score=0.473896
     testSet score=0.479311
     Feature Importances
@@ -342,7 +342,7 @@ did few attempts by selecting parameter options and apply GridsearchCV method
     'n_estimators': 45, 'subsample': 0.8, 'max_features': 4, 'max_depth': 6}
     Best CV Score:
     -0.4798894154650474
-    ```
+```
 
     Now both scoring on trainSet and testSet are consistently good.
 
@@ -384,7 +384,7 @@ query_feq_desc      0.013292
 
 what was the most interesting aspect of this work? What was the biggest challenge, and how did you overcome it? What did you learn?
 
-This is very interesting as well as challeging project to me. To be able to accomplish this project, I need to prepare my knowledge beyond specific in machine learning technique. I learned a lot on how normal information retrieval does the work and what are the NLP technique for. I also studies papers from other ecommerce company besides homedepot and see how search relevance is improved/implemented. 
+This is very interesting as well as challenging project to me. To be able to accomplish this project, I need to prepare my knowledge beyond specific in machine learning technique. I learned a lot on how normal information retrieval does the work and what are the NLP technique for. I also studies papers from other ecommerce company besides homedepot and see how search relevance is improved/implemented. 
 
 On top of knowledge preparation, I pretty much have idea on each steps of works. For example, I can see it would make sense and good fit to choose decision tree as the base model.
 
