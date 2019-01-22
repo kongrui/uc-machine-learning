@@ -8,10 +8,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 import matplotlib
-matplotlib.use('agg')
 matplotlib.use('Qt5Agg')
 
 from matplotlib import pyplot as plt
+
+import seaborn as sns
 
 RANDOM_STATE = 42
 NUM_TRAIN_DATA = 74067

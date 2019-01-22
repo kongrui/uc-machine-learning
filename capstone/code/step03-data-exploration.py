@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 import numpy as np
 import pandas as pd
 
 from regressionutil import DATA_DIR
 from regressionutil import IMG_DIR
 from regressionutil import NUM_TRAIN_DATA
+
+import seaborn as sns
+
+from matplotlib import pyplot as plt
 
 def loadData():
     data = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1").iloc[:NUM_TRAIN_DATA]
@@ -68,16 +69,17 @@ def corrmatrix(data):
     #df_all['term_ratio_desc'] = df_all['term_feq_desc'] / df_all['len_query']
 
 def pairplot(data):
-    features = data.drop('relevance', axis=1)
-    sns.pairplot(features.iloc[:, :])
+    #features = data.drop('relevance', axis=1)
+    #sns.pairplot(features.iloc[:, :])
+    sns.pairplot(data)
     plt.savefig(IMG_DIR + '/02.pairplot.png')
     #sns.regplot(x="term_few_desc", y="relevance", data=data)
 
 
 def exploreFeatures():
     data = loadData()
-    basics(data)
-    #corrmatrix(data)
+    #basics(data)
+    corrmatrix(data)
     #pointplot(data)
     #pairplot(data)
 
