@@ -188,9 +188,6 @@ the top one is `0.43192` of RMSE. I will upload my model to compare and hope to 
     • term_ratio_title: term_feq_title / len_query
     • term_ratio_desc: term_feq_desc / len_query
 
-
-
-
 ### Numberic Feature Exploration
 
 [code/step03-data-exploration.py](code/step03-data-exploration.py)
@@ -234,8 +231,66 @@ the top one is `0.43192` of RMSE. I will upload my model to compare and hope to 
 
   This diagram implies some correlation between productid distribution and search relevance
 
+### Algorithms/Models
 
+This is a regression problem essentially. In other words, we need fit the training data on a learning model and give predictions on the test data. I plan to explore models as below
+
+- Linear Regression model, or ordinary least squares [OLS](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html)
+  It is a type of linear least squares method for estimating the unknown parameters in a linear regression model. OLS chooses the parameters of a linear function of a set of explanatory variables by the principle of least squares: minimizing the sum of the squares of the differences between the observed dependent variable (values of the variable being predicted) in the given dataset and those predicted by the linear function. At its heart, linear regression is about finding the coefficients of a line that best match the given data. The biggest pros to using linear regression are its simplicity. On the other hand, if nonlinear relationships exist (and cannot be accounted for by combining features), predictions will be poor. 
+
+
+- [Decision Tree Model](https://en.wikipedia.org/wiki/Decision_tree_learning)
+  
+  Decision trees are one of the most popular algorithms used in this particular domain, i.e. search relevance modeling. 
+  
+  Again, refer to thse two papers on real-world implementation, [amazon search](http://additivegroves.net/papers/a9ext_sigir16.pdf), and [eBay search](http://sigir-ecom.weebly.com/uploads/1/0/2/9/102947274/ebay_search_architecture.pdf),
+   
+  The output of a decision tree can be easily interpreted (by humans) as rules.
+ 
+  Besides, few other pros are also attractive and make it popular,
+  
+    - it will address non-linearity, compared with baseline model. Great at learning complex, highly non-linear relationships. They usually can achieve pretty high performance
+    - simplicity, easy coding
+    - fast computation for large dataset. 
+  
+  The idea of the Decision Tree is to divide the data into smaller datasets based on a certain feature value until the target variables all fall under one category. While the human brain decides to pick the “splitting feature” based on the experience (i.e. the cloudy sky), a computer splits the dataset based on the maximum information gain. 
+  
+  Though, decision trees can be prone to major overfitting. There are a set of parameters it can be tuned to overcome overfitting. But in reality, ensemble techniques is ususally applied on top of decision tree model.
+  
+  
+- [Bagging/Boosting ensemble methods](https://becominghuman.ai/ensemble-learning-bagging-and-boosting-d20f38be9b1e)
+
+  The idea of `ensemble methods` is that a set of weak learners are combined to create a strong learner that obtains better performance than a single one.
+  
+  Ensemble methods combine several decision tree models to produce better predictive performance than a single decision tree model. The main principle behind the ensemble model is that a group of weak learners come together to form a strong learner, thus increasing the accuracy of the model.
+  
+  1. [Bagging](https://en.wikipedia.org/wiki/Bootstrap_aggregating), or bootstrap then aggregate process. For example, [`RandomForestRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html). Bootstrap refers to random sampling with replacement. Bootstrap allows us to better understand the bias and the variance with the dataset. Bootstrap involves random sampling of small subset of data from the dataset. 
+  
+  2. [Boosting](https://en.wikipedia.org/wiki/Boosting_(machine_learning)). Boosting refers to a group of algorithms that utilize weighted averages to make weak learners into stronger learners. For example, here is the real implementation as part of sklearn [`GradientBoostingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html)
+  
+
+I will dig into more details on the hyper-parameters of the model, which consists of more information we need to understand to best utilize the machine learning technique.
+
+  
 ### Implementation
+
+#### Training logic in brief
+
+1. Abstract all command function blocks into python module as [code/regressionutil.py](code/regressionutil.py)
+
+   - `get_data_tuple()`: load training from '/data.csv.gz', run train/test split per constant `PCT_TEST_DATA_SIZE`(i.e .3 or 30%) and return data tuple as  `X_train, X_test, y_train, y_test` 
+    
+   - `calculate_metrics(y_true, y_pred)`: calculate RMSE metrics given inputs of y_true and y_pred
+   
+   - `train_classifier(clf, X_train, y_train)`: basically invokes `clf.fit(X_train, y_train)`
+   
+   - `predict_labels(clf, features)` : given a set of features data, predicts the label for each row
+   
+2. Each training process will run the same sequence of function blocks
+   - train_classifier(clf, X_train, y_train)
+   - predict_labels(clf, X_train) and calculate_metrics(y_train, train_pred)
+   - predict_labels(clf, X_test) and calculate_metrics(y_test, test_pred) 
+
 
 #### Train baseline model 
 
@@ -249,24 +304,14 @@ Training sklearn's `linear_model.LinearRegression()` with all training data, it 
 trainSet RMSE=0.488282
 testSet  RMSE=0.488518
 ```
-The result looks relatively good. But it seems that the model is too simple with bias generated. 
+The result looks relatively good given we fed into large amount of training data. 
+
+But it seems that the model is too simple with bias generated. 
 
 
 #### Train out-of-box models
 
-Given the nature of this particular problem, the next model is chosen by me is DecisionTree Regression. 
-
-for reasons
- - the output of a decision tree can be easily interpreted (by humans) as rules.
- - it will address non-linearity, compared with baseline model. Great at learning complex, highly non-linear relationships. They usually can achieve pretty high performance
- - simplicity, easy coding
- - fast computation for large dataset. 
-
-Both [amazon search](http://additivegroves.net/papers/a9ext_sigir16.pdf), and [eBay search](http://sigir-ecom.weebly.com/uploads/1/0/2/9/102947274/ebay_search_architecture.pdf) employs DecisionTree as the basic layer model. 
-
-Though, decision trees can be prone to major overfitting. To address overfitting then achieve optimal performance, ensemble techniques can be applied on top of decision tree model. In short, a set of weak learners or decision tree are combined to create a strong learner that obtains better performance than a single one.
-
-Refer to [ensemble methods]https://becominghuman.ai/ensemble-learning-bagging-and-boosting-d20f38be9b1e, for more details
+Given the nature of this particular problem, the next model is chosen by me is `DecisionTree Regressor`. 
 
 
 [code/step05-train-model-outofbox.py](code/step05-train-model-outofbox.py)
@@ -287,13 +332,17 @@ Refer to [ensemble methods]https://becominghuman.ai/ensemble-learning-bagging-an
 |RandomForestRegressor|0.5230|0.22385|10000|0.0370|0.0181|
 |RandomForestRegressor|0.5216|0.22546|74067|0.0558|0.1391|
 
+Please note:
 
-Given the result above, I decide to further improve GradientBoostingRegressor model. 
+- RandomForestRegressor with bagging is another method besides `Grandient boosting` to try for optimal model performance.
 
-Please note RandomForestRegressor with bagging is another method to try for optimal model performance.
+- Gradient boosting is a machine learning technique for regression and classification problems, which produces a model in the form of an ensemble of weak prediction models, typically decision trees. It builds the model in a stage-wise fashion like other boosting methods do, and it generalizes them by allowing optimization of an arbitrary differentiable loss function.
 
-Gradient boosting is a machine learning technique for re- gression and classification problems, which produces a model in the form of an ensemble of weak prediction models, typically decision trees. It builds the model in a stage-wise fashion like other boosting methods do, and it generalizes them by allowing optimization of an arbitrary differentiable loss function.
-Gradient boosting is typically used with decision trees of a fixed size as base learners, namely gradient boosting trees. It’s a generalization of the tree ensembles and can prevent overfitting effectively.
+- Gradient boosting is typically used with decision trees of a fixed size as base learners, namely gradient boosting trees. It’s a generalization of the tree ensembles and can prevent overfitting effectively.
+
+The above result shows `DecisionTreeRegressor` without tuning manifests high overfitting, whereas 
+
+Given the result above, I decide to further improve `GradientBoostingRegressor` model. 
 
 ### Refinement
 
