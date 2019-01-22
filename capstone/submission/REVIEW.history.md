@@ -68,3 +68,55 @@
   Solid recap of the overall process
   
   It's also important to reflect on your learning process through this project. This will help you to internalize what you learned better. Ultimately, this is the primary goal of the capstone, as it is designed as a learning experience. So to do this, consider such questions as: what was the most interesting aspect of this work? What was the biggest challenge, and how did you overcome it? What did you learn?
+  
+  
+## Submission No.2
+
+### Algorithm
+
+Algorithms and techniques used in the project are thoroughly discussed and properly justified based on the characteristics of the problem.
+
+You have explained the approach you are going to take to face the problem and you have mentioned the algorithms that you are going to use. However, it's important to demonstrate that you have a solid base of the algorithms that you're using. In particular, it's expected more details, at least, of the most important algorithms in your report. Please, be sure to explain the main hyper-parameters for each algorithm too (at least those used in the Refinement section).
+
+I see in your report (section "Train out-of-box models") that you are using LR, DT, Gradient Boosting and RF, in some of them like in Gradient Boosting there is a layman's term explanation of the model. That could be a good example of what is needed to include (here in this section or even in that section if you want to keep the structure of your current document, although I think is better to keep the theoretical part before the implementation) for the rest of the algorithms.
+
+Just after that section we can find the "Refinement" section where you are naming some features that the reader won't understand unless an explanation is included. This is the main reason for this section: to put some background for the rest of the report, something like: "these are the algorithm I have decided to use (...) and they work like this (...) and these are the most important hyper parameters (...) that we are going to use to refine them".
+
+As you can see with all that information, the reader will have a good picture and background to continue understanding the document.
+
+### Implementation
+
+The process for which metrics, algorithms, and techniques were implemented with the given datasets or input data has been thoroughly documented. Complications that occurred during the coding process are discussed.
+
+I understand that your intention in this section is to explain the general strategy followed to solve the problem and I think this is needed and very informative, however, in this section is important to focus your attention on how you have implemented the algorithms. For example, you could explain the steps followed by a piece of code or an explanation about how you have implemented your solution. The idea is to explain your code to someone that has not read it, with enough detail to understand it (you could focus your explanation on the most important parts of your code).
+Note
+
+If I had to do this, I'd move the theoretical part to the section "algorithms" and keep the implementation here. Please, keep in mind that this section is where we are expecting to see how you have implemented the solution, so is a good idea to include some code, is not needed but is the easier way to explain the current implementation of your solution.
+
+
+### Process of improvement
+
+The process of improving upon the algorithms and techniques used is clearly documented. 
+
+I understand that your intention in this section is to explain the general strategy followed to solve the problem and I think this is needed and very informative, however, in this section is important to focus your attention on how you have implemented the algorithms. For example, you could explain the steps followed by a piece of code or an explanation about how you have implemented your solution. The idea is to explain your code to someone that has not read it, with enough detail to understand it (you could focus your explanation on the most important parts of your code).
+Note
+
+If I had to do this, I'd move the theoretical part to the section "algorithms" and keep the implementation here. Please, keep in mind that this section is where we are expecting to see how you have implemented the solution, so is a good idea to include some code, is not needed but is the easier way to explain the current implementation of your solution.
+
+
+### Results
+
+The final model’s qualities — such as parameters — are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
+
+Please be sure to also use your results to make an argument for why your final model represents a reasonably robust result for this problem using the features/parameters of the model.
+Please let me use this definition to help you to improve this section.
+"The robustness of a model is the property that characterizes how effective your algorithm is while being tested on the new independent (but similar) dataset. In the other words, a model robust is the one which does not deteriorate too much when training and testing with slightly different data (either by adding noise or by taking other dataset). here". For that reason to test the robustness it's needed to use your model with more than a single dataset and study the result to see that there is a coherence between the results.
+
+If I had to demonstrate the robustness of a model I'd use sklearn KFolds and will study the score for each fold checking that the results are coherent between them. With this, you can demonstrate that your model was not lucky with the data used and is robust enough.
+
+
+### Conclusion
+
+A visualization has been provided that emphasizes an important quality about the project with thorough discussion. Visual cues are clearly defined.
+
+Please, try to provide a section including a visualization about the results of your model or about something you would like to highlight about your model.
