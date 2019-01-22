@@ -59,7 +59,7 @@ The quality of the model is evaluated using root mean squared error (RMSE), as i
 
 ![RMSE](./images/rmse.png)
 
-The RMSE is the square root of the variance of the residuals. It indicates the absolute fit of the model to the data–how close the observed data points are to the model’s predicted values. As the square root of a variance, RMSE can be interpreted as the standard deviation of the unexplained variance. Lower values of RMSE indicate better fit. RMSE is a good measure of how accurately the model predicts the response, and it is the most important criterion for fit if the main purpose of the model is prediction.
+The RMSE is the square root of the variance of the residuals. It indicates the absolute fit of the model to the data–how close the observed data points are to the model’s predicted values. As the square root of a variance, RMSE can be interpreted as the standard deviation of the unexplained variance. Lower values of RMSE indicate better fit. RMSE is a good measure of how accurately the model predicts the response, and it is the most important criterion for fit if the main purpose of the model is prediction. Besides, it is largely used for numerical predictions, which is what this problem fit.
 
 [Choosing the Right Metric](https://medium.com/usf-msds/choosing-the-right-metric-for-machine-learning-models-part-1-a99d7d7414e4) implies RMSE is the default metric of many models for prediction because loss function defined in terms of RMSE is smoothly differentiable and makes it easier to perform mathematical operations.
 
@@ -288,25 +288,63 @@ Refer to [ensemble methods]https://becominghuman.ai/ensemble-learning-bagging-an
 |RandomForestRegressor|0.5216|0.22546|74067|0.0558|0.1391|
 
 
-Given the result above, I decide to further improve GradientBoostingRegressor model. Please note RandomForestRegressor with bagging is another method to try for optimal model performance
+Given the result above, I decide to further improve GradientBoostingRegressor model. 
+
+Please note RandomForestRegressor with bagging is another method to try for optimal model performance.
+
+Gradient boosting is a machine learning technique for re- gression and classification problems, which produces a model in the form of an ensemble of weak prediction models, typically decision trees. It builds the model in a stage-wise fashion like other boosting methods do, and it generalizes them by allowing optimization of an arbitrary differentiable loss function.
+Gradient boosting is typically used with decision trees of a fixed size as base learners, namely gradient boosting trees. It’s a generalization of the tree ensembles and can prevent overfitting effectively.
 
 ### Refinement
 
 [code/step07-train-model-refinement-gb.py](code/step07-train-model-refinement-gb.py)
 
-Apply GridsearchCV method to yield the best result as
+I tuned the parameters by following this [article](https://medium.com/all-things-ai/in-depth-parameter-tuning-for-gradient-boosting-3363992e9bae)
 
-```
-trainSet score=0.473896
-testSet score=0.479311
-Feature Importances
-{'learning_rate': 0.1, 'min_samples_leaf': 50, 
-'n_estimators': 45, 'subsample': 0.8, 'max_features': 4, 'max_depth': 6}
-Best CV Score:
--0.4798894154650474
-```
+did few attempts by selecting parameter options and apply GridsearchCV method 
 
-Now both scoring on trainSet and testSet are consistently good.
+  
+    param_grid = {
+        'n_estimators': [15, 45, 70],
+        'max_features': [4, 6, 8],
+        'max_depth': [6, 8],
+        'learning_rate': [0.1],
+        'min_samples_leaf': [50],
+        'subsample': [0.8]
+    }
+
+    param_grid = {
+        'n_estimators': [40, 45, 50],
+        'max_features': [4, 6, 8, 10],
+        'max_depth': [6, 8],
+        'learning_rate': [0.1],
+        'min_samples_leaf': [50],
+        'subsample': [0.8]
+    }
+
+    param_grid = {
+        'n_estimators': [40, 45, 50],
+        'max_features': [3, 4, 5, 6],
+        'max_depth': [4, 5, 6, 7, 8],
+        'learning_rate': [0.1],
+        'min_samples_leaf': [50],
+        'subsample': [0.8]
+    }
+    
+    
+   finally yield the best result as
+
+    ```
+    trainSet score=0.473896
+    testSet score=0.479311
+    Feature Importances
+    {'learning_rate': 0.1, 'min_samples_leaf': 50, 
+    'n_estimators': 45, 'subsample': 0.8, 'max_features': 4, 'max_depth': 6}
+    Best CV Score:
+    -0.4798894154650474
+    ```
+
+    Now both scoring on trainSet and testSet are consistently good.
 
 
 ## IV. Results
@@ -344,11 +382,15 @@ query_feq_desc      0.013292
 
 ## V. Conclusion
 
-In this project, the data source are all text features. The critical challenge is the feature engineering. Specially, is how to select/generate numberic features out of text features. I applied generic NLP method to derive some most obvious features. 
+what was the most interesting aspect of this work? What was the biggest challenge, and how did you overcome it? What did you learn?
 
-Then I trained the lineal regression as base line model. then I trained few other models from sklearn package and then I tuned it using GridSearchCV to overcome overfiting to achieve best model performance.
+This is very interesting as well as challeging project to me. To be able to accomplish this project, I need to prepare my knowledge beyond specific in machine learning technique. I learned a lot on how normal information retrieval does the work and what are the NLP technique for. I also studies papers from other ecommerce company besides homedepot and see how search relevance is improved/implemented. 
 
+On top of knowledge preparation, I pretty much have idea on each steps of works. For example, I can see it would make sense and good fit to choose decision tree as the base model.
 
+This project is unique such that the raw data source are all text features. And since those are all text features, it can not be learned directly. The critical challenge is the feature engineering. Feature engineering for this project consists of two stages, feature pre-processing and feature extraction or word embedding process. There are many actions that can be taken in this stage like case conversion, tokenization, lemmatization, selection of variables, word spell correction. I picked up the there major processes
+
+Then I trained the lineal regression as base line model for its simplicity. Then I trained a decision tree model so to be able to fit on non-lineality. Then I used Gradient Boosting on top of decision tree model and GridSearchCV to overcome overfiting and achieve best model performance.
 
 
 ### Improvement
@@ -371,4 +413,3 @@ I’ve submitted attempts on the Kaggle website. The best result is 0.4830(Ranke
 - Different regression algorithm to ensemble
   I could try to combine decision tree model and deep learning model together by ensembling method to get more improvements on the final results.
   
-
