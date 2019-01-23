@@ -42,6 +42,9 @@ def evalulateModel(clf):
                                        columns=['importance']).sort_values('importance', ascending=False)
     print feature_importances
 
+
+def evaluateModelRobust(clf):
+
     rmse_scorer = make_scorer(calculate_metrics, greater_is_better=False)
     data_all = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1")
     data = data_all.iloc[:NUM_TRAIN_DATA]
@@ -50,6 +53,37 @@ def evalulateModel(clf):
     score = cross_val_score(clf, X, y, cv=11, scoring=rmse_scorer)
     print(score)
     print(stats.describe(score))
+
+    X_train_origin, X_test_origin, y_train_origin, y_test_origin = get_data_tuple()
+
+    sizeTest = 22221  # 22221 sizeTrain = 51846  # 51846
+    results = {
+        'size': [],
+        'time - train': [],
+        'time - predict': [],
+        'score - train': [],
+        'score - test': []
+    }
+    for size in [ 1000, 5000, 10000, 20000, 30000, 40000, 50000, 60000, NUM_TRAIN_DATA ]:
+       X_train, X_test, y_train, y_test = \
+           X_train_origin[:size], X_test_origin[:sizeTest] \
+               , y_train_origin[:size], y_test_origin[:sizeTest]
+       time_train = train_classifier(clf, X_train, y_train)
+       train_pred, train_dur = predict_labels(clf, X_train)
+       train_score = calculate_metrics(y_train, train_pred)
+       test_pred, test_dur = predict_labels(clf, X_test)
+       test_score = calculate_metrics(y_test, test_pred)
+       results['size'].append(size)
+       results['time - train'].append("{:.4f}".format(train_dur))
+       results['time - predict'].append("{:.4f}".format(test_dur))
+       results['score - train'].append(train_score)
+       results['score - test'].append(test_score)
+
+    df = pd.DataFrame(results)
+    print(df.to_csv(index=False, sep='|'))
+
+
+
 
 def tuningParameters(param_grid):
 
@@ -174,6 +208,7 @@ def afterTuningParameter():
                                              learning_rate=0.1, min_samples_leaf=50, n_estimators=45, subsample=0.8,
                                              max_features=4, max_depth=6)
     evalulateModel(clf)
+    evaluateModelRobust(clf)
     return clf
 
 def tuningOnsingleParameter(x_train, x_test, y_train, y_test, paramName, choices):

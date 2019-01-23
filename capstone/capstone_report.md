@@ -145,6 +145,43 @@ Then I will train SKLearn regressors, optimized with grid search.
 
 Programing language - python and `Scikit-learn` toolkit
 
+This is a regression problem essentially. In other words, we need fit the training data on a learning model and give predictions on the test data. I plan to explore models as below
+
+- Linear Regression model, or ordinary least squares [OLS](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html)
+  It is a type of linear least squares method for estimating the unknown parameters in a linear regression model. OLS chooses the parameters of a linear function of a set of explanatory variables by the principle of least squares: minimizing the sum of the squares of the differences between the observed dependent variable (values of the variable being predicted) in the given dataset and those predicted by the linear function. At its heart, linear regression is about finding the coefficients of a line that best match the given data. The biggest pros to using linear regression are its simplicity. On the other hand, if nonlinear relationships exist (and cannot be accounted for by combining features), predictions will be poor. 
+
+
+- [Decision Tree Model](https://en.wikipedia.org/wiki/Decision_tree_learning)
+  
+  Decision trees are one of the most popular algorithms used in this particular domain, i.e. search relevance modeling. 
+  
+  Again, refer to thse two papers on real-world implementation, [amazon search](http://additivegroves.net/papers/a9ext_sigir16.pdf), and [eBay search](http://sigir-ecom.weebly.com/uploads/1/0/2/9/102947274/ebay_search_architecture.pdf),
+   
+  The output of a decision tree can be easily interpreted (by humans) as rules.
+ 
+  Besides, few other pros are also attractive and make it popular,
+  
+    - it will address non-linearity, compared with baseline model. Great at learning complex, highly non-linear relationships. They usually can achieve pretty high performance
+    - simplicity, easy coding
+    - fast computation for large dataset. 
+  
+  The idea of the Decision Tree is to divide the data into smaller datasets based on a certain feature value until the target variables all fall under one category. While the human brain decides to pick the “splitting feature” based on the experience (i.e. the cloudy sky), a computer splits the dataset based on the maximum information gain. 
+  
+  Though, decision trees can be prone to major overfitting. There are a set of parameters it can be tuned to overcome overfitting. But in reality, ensemble techniques is ususally applied on top of decision tree model.
+  
+- [Bagging/Boosting ensemble methods](https://becominghuman.ai/ensemble-learning-bagging-and-boosting-d20f38be9b1e)
+
+  The idea of `ensemble methods` is that a set of weak learners are combined to create a strong learner that obtains better performance than a single one.
+  
+  Ensemble methods combine several decision tree models to produce better predictive performance than a single decision tree model. The main principle behind the ensemble model is that a group of weak learners come together to form a strong learner, thus increasing the accuracy of the model.
+  
+  1. [Bagging](https://en.wikipedia.org/wiki/Bootstrap_aggregating), or bootstrap then aggregate process. For example, [`RandomForestRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html). Bootstrap refers to random sampling with replacement. Bootstrap allows us to better understand the bias and the variance with the dataset. Bootstrap involves random sampling of small subset of data from the dataset. 
+  
+  2. [Boosting](https://en.wikipedia.org/wiki/Boosting_(machine_learning)). Boosting refers to a group of algorithms that utilize weighted averages to make weak learners into stronger learners. For example, here is the real implementation as part of sklearn [`GradientBoostingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html)
+  
+
+I will dig into more details on the hyper-parameters of the model, which consists of more information we need to understand to best utilize the machine learning technique.
+
 
 ## Benchmark Model
 
@@ -231,48 +268,14 @@ the top one is `0.43192` of RMSE. I will upload my model to compare and hope to 
 
   This diagram implies some correlation between productid distribution and search relevance
 
-### Algorithms/Models
-
-This is a regression problem essentially. In other words, we need fit the training data on a learning model and give predictions on the test data. I plan to explore models as below
-
-- Linear Regression model, or ordinary least squares [OLS](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html)
-  It is a type of linear least squares method for estimating the unknown parameters in a linear regression model. OLS chooses the parameters of a linear function of a set of explanatory variables by the principle of least squares: minimizing the sum of the squares of the differences between the observed dependent variable (values of the variable being predicted) in the given dataset and those predicted by the linear function. At its heart, linear regression is about finding the coefficients of a line that best match the given data. The biggest pros to using linear regression are its simplicity. On the other hand, if nonlinear relationships exist (and cannot be accounted for by combining features), predictions will be poor. 
-
-
-- [Decision Tree Model](https://en.wikipedia.org/wiki/Decision_tree_learning)
-  
-  Decision trees are one of the most popular algorithms used in this particular domain, i.e. search relevance modeling. 
-  
-  Again, refer to thse two papers on real-world implementation, [amazon search](http://additivegroves.net/papers/a9ext_sigir16.pdf), and [eBay search](http://sigir-ecom.weebly.com/uploads/1/0/2/9/102947274/ebay_search_architecture.pdf),
-   
-  The output of a decision tree can be easily interpreted (by humans) as rules.
- 
-  Besides, few other pros are also attractive and make it popular,
-  
-    - it will address non-linearity, compared with baseline model. Great at learning complex, highly non-linear relationships. They usually can achieve pretty high performance
-    - simplicity, easy coding
-    - fast computation for large dataset. 
-  
-  The idea of the Decision Tree is to divide the data into smaller datasets based on a certain feature value until the target variables all fall under one category. While the human brain decides to pick the “splitting feature” based on the experience (i.e. the cloudy sky), a computer splits the dataset based on the maximum information gain. 
-  
-  Though, decision trees can be prone to major overfitting. There are a set of parameters it can be tuned to overcome overfitting. But in reality, ensemble techniques is ususally applied on top of decision tree model.
-  
-  
-- [Bagging/Boosting ensemble methods](https://becominghuman.ai/ensemble-learning-bagging-and-boosting-d20f38be9b1e)
-
-  The idea of `ensemble methods` is that a set of weak learners are combined to create a strong learner that obtains better performance than a single one.
-  
-  Ensemble methods combine several decision tree models to produce better predictive performance than a single decision tree model. The main principle behind the ensemble model is that a group of weak learners come together to form a strong learner, thus increasing the accuracy of the model.
-  
-  1. [Bagging](https://en.wikipedia.org/wiki/Bootstrap_aggregating), or bootstrap then aggregate process. For example, [`RandomForestRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html). Bootstrap refers to random sampling with replacement. Bootstrap allows us to better understand the bias and the variance with the dataset. Bootstrap involves random sampling of small subset of data from the dataset. 
-  
-  2. [Boosting](https://en.wikipedia.org/wiki/Boosting_(machine_learning)). Boosting refers to a group of algorithms that utilize weighted averages to make weak learners into stronger learners. For example, here is the real implementation as part of sklearn [`GradientBoostingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html)
-  
-
-I will dig into more details on the hyper-parameters of the model, which consists of more information we need to understand to best utilize the machine learning technique.
-
   
 ### Implementation
+
+per review comment
+
+```
+The process for which metrics, algorithms, and techniques were implemented with the given datasets or input data has been thoroughly documented
+```
 
 #### Training logic in brief
 
@@ -290,6 +293,14 @@ I will dig into more details on the hyper-parameters of the model, which consist
    - train_classifier(clf, X_train, y_train)
    - predict_labels(clf, X_train) and calculate_metrics(y_train, train_pred)
    - predict_labels(clf, X_test) and calculate_metrics(y_test, test_pred) 
+
+3. Code organization as below
+   - `step01-raw-data-analysis.py` : implement how raw data is analyzed, including parse data and unzip file and visualization of data set and label set
+   - `step02-feature-engineering.py` : implement how feature engineering works
+   - `step03-data-exploration.py` : further data explorataion after feature engineering
+   - `step04-train-model-baseline.py` : how train baseline model by linear regression model
+   - `step05-train-model-outofbox.py` : how train decision tree/gradient boosting/random forest tree models out of box
+   - `step07-train-model-refinement-gb.py` : how fine tuning is done on gradient boosting method
 
 
 #### Train baseline model 
@@ -437,16 +448,6 @@ param_grid = {
 
 In `main` method, I run the evaluation using the after-tuning parameters and run **FUNC `def afterTuningParameter()` **.
 
-Did a `cross_val_score(clf, X, y, cv=11, scoring=rmse_scorer)`
-(refer to ** FUNCE ** ` def evalulateModel()`) to get the score across fold of 11 as below,
-
-  - score list per each fold is  
-  `[-0.48950211 -0.47874718 -0.47798169 -0.47218829 -0.47783923 -0.47377536
- -0.47287921 -0.47623568 -0.48764387 -0.48442463 -0.49399407]`
- 
-  - DescribeResult(nobs=11, minmax=(-0.4939940667918515, -0.47218828844078503), mean=-0.4804737551026021, variance=5.36617971646771e-05, skewness=-0.5910596043262953, kurtosis=-0.9594787666425146)
-  
- score overall is stable.
 
 ```
 Regression training, dur=1.85773301125
@@ -475,7 +476,33 @@ query_feq_desc      0.013292
   ```
   
   the model consists of 45 weak learner per `n_estimators`. Each learner is a decision tree. The 45 week learner comes together to form a strong learner, thus increasing the accuracy of the model.
-  
+
+To determinine the robustness of the final model, I used two methods per `def evaluateModelRobust()`
+
+  1. Did a `cross_val_score(clf, X, y, cv=11, scoring=rmse_scorer)` to get the score across fold of 11 as below,
+     - score list per each fold is  
+    `[-0.48950211 -0.47874718 -0.47798169 -0.47218829 -0.47783923 -0.47377536 -0.47287921 -0.47623568 -0.48764387 -0.48442463 -0.49399407]`
+ 
+     - the statistics of the score list is `DescribeResult(nobs=11, minmax=(-0.4939940667918515, -0.47218828844078503), mean=-0.4804737551026021, variance=5.36617971646771e-05, skewness=-0.5910596043262953, kurtosis=-0.9594787666425146)`
+    
+     scores overall are stable.
+ 
+  2. calculated the training score and test scores is evaluated by first randomly splitting the original dataset to 20% test set and 80% training set and then training the model with different training size.
+   
+   |score - test|score - train|size        |time - predict|time - train|
+   |------------|------------|-------------|--------------|--------------|
+   |0.49487210477908417|0.47243275346478003|1000|0.0309|0.0018|
+   |0.4845859975728582|0.46363855375049834|5000|0.0278|0.0064|
+   |0.4823142068942198|0.4681989043332188|10000|0.0271|0.0127|
+   |0.48061217765755576|0.47307865387267306|20000|0.0273|0.0255|
+   |0.479654490081195|0.47393362620069035|30000|0.0304|0.0494|
+   |0.47952046473162524|0.47488033812113|40000|0.0280|0.0498|
+   |0.47943031353784255|0.47435964757796084|50000|0.0306|0.0689|
+   |0.4793110196280277|0.4738958305471664|60000|0.0293|0.0699|
+   |0.4793110196280277|0.4738958305471664|74067|0.0281|0.0661|
+ 
+  The training score and the test score are close, indicating that the model generalizes well to unseen data.
+
 
 ### Justification
 
@@ -489,6 +516,10 @@ query_feq_desc      0.013292
 This is very interesting as well as challenging project to me. To be able to accomplish this project, I need to prepare my knowledge beyond specific in machine learning technique. I learned a lot on how normal information retrieval does the work and what are the NLP technique for. I also studies papers from other ecommerce company besides homedepot and see how search relevance is improved/implemented. 
 
 On top of knowledge preparation, I pretty much have idea on each steps of works. For example, I can see it would make sense and good fit to choose decision tree as the base model.
+
+here is end-to-end flow chart of this project,
+
+![process-flowchart.png](./images/process-flowchart.png),
 
 This project is unique such that the raw data source are all text features. And since those are all text features, it can not be learned directly. The critical challenge is the feature engineering. Feature engineering for this project consists of two stages, feature pre-processing and feature extraction or word embedding process. There are many actions that can be taken in this stage like case conversion, tokenization, lemmatization, selection of variables, word spell correction. I picked up the there major processes
 
