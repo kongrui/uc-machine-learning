@@ -7,8 +7,11 @@ from sklearn import ensemble
 
 from sklearn import model_selection
 from sklearn.metrics import make_scorer
+from sklearn.model_selection import cross_val_score
 
 from regressionutil import *
+
+from scipy import stats
 
 """
 (51846, 10) (51846,)
@@ -39,6 +42,15 @@ def evalulateModel(clf):
                                        columns=['importance']).sort_values('importance', ascending=False)
     print feature_importances
 
+    rmse_scorer = make_scorer(calculate_metrics, greater_is_better=False)
+    data_all = pd.read_csv(DATA_DIR + '/data.csv.gz', encoding="ISO-8859-1")
+    data = data_all.iloc[:NUM_TRAIN_DATA]
+    X = data.drop(["relevance", "id"], axis=1)
+    y = data["relevance"].copy()
+    score = cross_val_score(clf, X, y, cv=11, scoring=rmse_scorer)
+    print(score)
+    print(stats.describe(score))
+
 def tuningParameters(param_grid):
 
     scorer = make_scorer(calculate_metrics, greater_is_better=False)
@@ -50,14 +62,6 @@ def tuningParameters(param_grid):
         X_train_origin[:sizeTrain], X_test_origin[:sizeTest], y_train_origin[:sizeTrain], y_test_origin[:sizeTest]
 
     gbr = ensemble.GradientBoostingRegressor(random_state=RANDOM_STATE)
-    param_grid = {
-        'n_estimators': [15, 45, 70],
-        'max_features': [4, 6, 8, 10],
-        'max_depth': [6, 8],
-        'learning_rate': [0.1],
-        'min_samples_leaf': [50],
-        'subsample': [0.8]
-    }
     clf = model_selection.GridSearchCV(estimator=gbr, param_grid=param_grid, n_jobs=1, cv=10, scoring=scorer)
     time_train = train_classifier(clf, X_train, y_train)
     print('Regression training, dur=%s' % time_train)
@@ -67,10 +71,11 @@ def tuningParameters(param_grid):
     test_score = calculate_metrics(y_test, test_pred)
     print('trainSet score=%.6f, dur=%s' % (train_score, train_dur))
     print('testSet score=%.6f, dur=%s' % (test_score, test_dur))
-    print "Feature Importances"
+    print "parameters"
     print(clf.best_params_)
     print('Best CV Score:')
     print(clf.best_score_)
+    return clf
 
 def attempt1():
     param_grid = {
@@ -148,6 +153,17 @@ Best CV Score:
 -0.4798894154650474
 """
 
+def attempt5():
+  param_grid = {
+        'n_estimators': [25, 45, 55],
+        'max_features': [6, 7, 8],
+        'max_depth': [2, 3, 4],
+        'learning_rate': [0.1],
+        'min_samples_leaf': [50, 75, 100],
+        'subsample': [0.8]
+  }
+  tuningParameters(param_grid)
+
 def beforeTuningParameter():
     clf = ensemble.GradientBoostingRegressor(random_state=RANDOM_STATE, n_estimators=100)
     evalulateModel(clf)
@@ -160,15 +176,79 @@ def afterTuningParameter():
     evalulateModel(clf)
     return clf
 
+def tuningOnsingleParameter(x_train, x_test, y_train, y_test, paramName, choices):
+  train_results = []
+  test_results = []
+  for eta in choices:
+    params = {}
+    params[paramName] = eta
+    model = ensemble.GradientBoostingRegressor(**params)
+    train_classifier(model, x_train, y_train)
+    train_pred, dur = predict_labels(model, x_train)
+    test_pred, dur = predict_labels(model, x_test)
+    train_results.append(calculate_metrics(y_train, train_pred))
+    test_results.append(calculate_metrics(y_test, test_pred))
+  l1, = plt.plot(choices, train_results, 'b', label="Train")
+  l2, = plt.plot(choices, test_results, 'r', label="Test")
+  plt.ylabel('rmse')
+  plt.xlabel(paramName)
+  plt.legend((l1, l2), ('Train', 'Test'), loc='best')
+  plt.savefig(IMG_DIR + '/07.tuning-gb.' + paramName + '.png')
+  # plt.show()
 
+def tuneLearnRate(X_train, X_test, y_train, y_test):
+  choices = [0.01, 0.02, 0.03, 0.04, 0.05, 0.6]
+  paramName = 'learning_rate'
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
+
+def tuneNEstimators(X_train, X_test, y_train, y_test):
+  paramName = 'n_estimators'
+  choices = [1, 2, 4, 8, 16, 32, 64, 100, 200]
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
+
+def tuneMaxDepth(X_train, X_test, y_train, y_test):
+  paramName = 'max_depth'
+  choices = [ 1., 2., 3., 4.,  5.,  6.,  7.,  8.,  9., 10.]
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
+
+def tuneMinSampleSplit(X_train, X_test, y_train, y_test):
+  paramName = 'min_samples_split'
+  choices = [5, 10, 20 , 30, 40, 50, 100]
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
+
+def tuneMinSampleLeaf(X_train, X_test, y_train, y_test):
+  paramName = 'min_samples_leaf'
+  choices = [1, 20, 50, 100, 200, 500, 1000, 2000]
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
+
+def tuneMaxFeatures(X_train, X_test, y_train, y_test):
+  paramName = 'max_features'
+  choices = list(range(1, X_train.shape[1]))
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
+
+def tuneSubSamples(X_train, X_test, y_train, y_test):
+  paramName = 'subsample'
+  choices = [0.05, 0.1, 0.2, 0.5, 0.8, 0.9]
+  tuningOnsingleParameter(X_train, X_test, y_train, y_test, paramName, choices)
 
 if __name__ == '__main__':
-    #attempt2()
-    #attempt3()
-    #attempt4()
-    clf = afterTuningParameter()
-    submit_result_test('gb.aft', clf)
-    """
+  X_train, X_test, y_train, y_test = get_data_tuple()
+
+  #
+  #tuneLearnRate(X_train, X_test, y_train, y_test)
+  #tuneNEstimators(X_train, X_test, y_train, y_test)
+  #tuneMaxDepth(X_train, X_test, y_train, y_test)
+  #tuneMinSampleSplit(X_train, X_test, y_train, y_test)
+  #tuneMinSampleLeaf(X_train, X_test, y_train, y_test)
+  #tuneMaxFeatures(X_train, X_test, y_train, y_test)
+  #tuneSubSamples(X_train, X_test, y_train, y_test)
+
+  #attempt2()
+  #attempt3()
+  #attempt4()
+  afterTuningParameter()
+  #submit_result_test('gb.aft', clf)
+  """
 Regression training, dur=1.85773301125
 trainSet score=0.473896, dur=0.0938727855682
 testSet score=0.479311, dur=0.0370998382568
@@ -183,4 +263,4 @@ len_query           0.073408
 term_feq_desc       0.026005
 query_feq_title     0.013829
 query_feq_desc      0.013292
-    """
+   """

@@ -341,6 +341,8 @@ Please note:
 - Gradient boosting is typically used with decision trees of a fixed size as base learners, namely gradient boosting trees. It’s a generalization of the tree ensembles and can prevent overfitting effectively.
 
 The above result shows `DecisionTreeRegressor` without tuning manifests high overfitting, whereas 
+`RandomForestRegressor` and especially `GradientBoostingRegressor` performs much better even with default hyper-parameters 
+
 
 Given the result above, I decide to further improve `GradientBoostingRegressor` model. 
 
@@ -350,36 +352,67 @@ Given the result above, I decide to further improve `GradientBoostingRegressor` 
 
 I tuned the parameters by following this [article](https://medium.com/all-things-ai/in-depth-parameter-tuning-for-gradient-boosting-3363992e9bae)
 
-did few attempts by selecting parameter options and apply GridsearchCV method 
+- first, take a look at the performance per single parameter choices, refer to `def tuningOnsingleParameter` for detailed implementation
 
+  - learning_rate : learning rate shrinks the contribution of each tree by learning_rate. There is a trade-off between learning_rate and n_estimators.
+   per result,  ![07.tuning-gb.learning_rate.png](./images/07.tuning-gb.learning_rate.png), it is about `~0.1`
+   
+  - n_estimators represents the number of trees in the forest. Usually the higher the number of trees the better to learn the data. However, adding a lot of trees can slow down the training process considerably, therefore we do a parameter search to find the sweet spot.
+  per tuning result,  ![07.tuning-gb.n_estimators.png](./images/07.tuning-gb.n_estimators.png), it is about between `25` to `50`
+
+  - subsample : float, optional (default=1.0)
+    The fraction of samples to be used for fitting the individual base learners. If smaller than 1.0 this results in Stochastic Gradient Boosting. subsample interacts with the parameter n_estimators. Choosing subsample < 1.0 leads to a reduction of variance and an increase in bias. 
   
-    param_grid = {
-        'n_estimators': [15, 45, 70],
-        'max_features': [4, 6, 8],
-        'max_depth': [6, 8],
-        'learning_rate': [0.1],
-        'min_samples_leaf': [50],
-        'subsample': [0.8]
-    }
+    per tuning result,  ![07.tuning-gb.subsample.png](./images/07.tuning-gb.subsample.png), it is about `~0.8`
 
-    param_grid = {
-        'n_estimators': [40, 45, 50],
-        'max_features': [4, 6, 8, 10],
-        'max_depth': [6, 8],
-        'learning_rate': [0.1],
-        'min_samples_leaf': [50],
-        'subsample': [0.8]
-    }
-
-    param_grid = {
-        'n_estimators': [40, 45, 50],
-        'max_features': [3, 4, 5, 6],
-        'max_depth': [4, 5, 6, 7, 8],
-        'learning_rate': [0.1],
-        'min_samples_leaf': [50],
-        'subsample': [0.8]
-    }
+  - max_depth : integer, optional (default=3)
+    maximum depth of the individual regression estimators. The maximum depth limits the number of nodes in the tree. Tune this parameter for best performance; the best value depends on the interaction of the input variables. This indicates how deep the built tree can be. The deeper the tree, the more splits it has and it captures more information
     
+    per tuning result,  ![07.tuning-gb.max_depth.png](./images/07.tuning-gb.max_depth.png), it is actually around the default value, i.e. = 3
+    
+  - max_features : The number of features to consider when looking for the best split
+    per tuning result,  ![07.tuning-gb.max_features.png](./images/07.tuning-gb.max_features.png), it is actually around 6~7 features
+    
+    
+  - min_samples_split: it represents the minimum number of samples required to split an internal node.   This can vary between considering at least one sample at each node to considering all of the samples at each node. When we increase this parameter, the tree becomes more constrained as it has to consider more samples at each node.
+  
+    per tuning result,  ![07.tuning-gb.min_samples_split.png](./images/07.tuning-gb.min_samples_split.png), the curve is pretty flat. will go with default value
+  
+  
+  - min_samples_leaf: the minimum number of samples required to be at a leaf node.
+     per tuning result,  ![07.tuning-gb.min_samples_leaf.png](./images/07.tuning-gb.min_samples_leaf.png), it is actually around 100
+  
+    
+- Now, did few attempts by selecting parameter options and apply GridsearchCV method 
+
+```
+param_grid = {
+    'n_estimators': [15, 45, 70],
+    'max_features': [4, 6, 8],
+    'max_depth': [6, 8],
+    'learning_rate': [0.1],
+    'min_samples_leaf': [50],
+    'subsample': [0.8]
+}
+
+param_grid = {
+    'n_estimators': [40, 45, 50],
+    'max_features': [4, 6, 8, 10],
+    'max_depth': [6, 8],
+    'learning_rate': [0.1],
+    'min_samples_leaf': [50],
+    'subsample': [0.8]
+}
+
+param_grid = {
+    'n_estimators': [40, 45, 50],
+    'max_features': [3, 4, 5, 6],
+    'max_depth': [4, 5, 6, 7, 8],
+    'learning_rate': [0.1],
+    'min_samples_leaf': [50],
+    'subsample': [0.8]
+}
+```  
     
    finally yield the best result as
 
@@ -402,7 +435,18 @@ did few attempts by selecting parameter options and apply GridsearchCV method
 
 [code/step07-train-model-refinement-gb.py](code/step07-train-model-refinement-gb.py)
 
-In `main` method, I run the evaluation using the after-tuning parameters.
+In `main` method, I run the evaluation using the after-tuning parameters and run **FUNC `def afterTuningParameter()` **.
+
+Did a `cross_val_score(clf, X, y, cv=11, scoring=rmse_scorer)`
+(refer to ** FUNCE ** ` def evalulateModel()`) to get the score across fold of 11 as below,
+
+  - score list per each fold is  
+  `[-0.48950211 -0.47874718 -0.47798169 -0.47218829 -0.47783923 -0.47377536
+ -0.47287921 -0.47623568 -0.48764387 -0.48442463 -0.49399407]`
+ 
+  - DescribeResult(nobs=11, minmax=(-0.4939940667918515, -0.47218828844078503), mean=-0.4804737551026021, variance=5.36617971646771e-05, skewness=-0.5910596043262953, kurtosis=-0.9594787666425146)
+  
+ score overall is stable.
 
 ```
 Regression training, dur=1.85773301125
@@ -420,7 +464,18 @@ term_feq_desc       0.026005
 query_feq_title     0.013829
 query_feq_desc      0.013292
 ```
+  
+  The mode can be visualized as per image ![gradientboostingtree.png](./images/gradientboostingtree.png). 
 
+  with optimal parameter set as 
+  
+  ```
+  {'learning_rate': 0.1, 'min_samples_leaf': 50, 
+    'n_estimators': 45, 'subsample': 0.8, 'max_features': 4, 'max_depth': 6}
+  ```
+  
+  the model consists of 45 weak learner per `n_estimators`. Each learner is a decision tree. The 45 week learner comes together to form a strong learner, thus increasing the accuracy of the model.
+  
 
 ### Justification
 
@@ -430,8 +485,6 @@ query_feq_desc      0.013292
 
 
 ## V. Conclusion
-
-what was the most interesting aspect of this work? What was the biggest challenge, and how did you overcome it? What did you learn?
 
 This is very interesting as well as challenging project to me. To be able to accomplish this project, I need to prepare my knowledge beyond specific in machine learning technique. I learned a lot on how normal information retrieval does the work and what are the NLP technique for. I also studies papers from other ecommerce company besides homedepot and see how search relevance is improved/implemented. 
 
